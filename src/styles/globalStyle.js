@@ -4,7 +4,7 @@ import { typography, breakpoints, misc } from '.';
 const bodyStyles = css`
    font-family: ${typography.type.primary};
    background: ${(props) => props.theme.grey_light};
-   color: ${(props) => props.theme.dark};
+   color: ${(props) => props.theme.grey_dark};
    line-height: 1.6;
    max-width: 1600px;
    font-weight: 400;
@@ -75,7 +75,7 @@ const bodyStyles = css`
       border-radius: ${misc.rounded.sm};
       border: none;
       color: ${(props) => props.theme.blue};
-      font-weight: ${typography.weight.semibold};
+      font-weight: ${typography.weight.bold};
       text-transform: capitalize;
    }
 

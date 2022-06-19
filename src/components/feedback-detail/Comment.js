@@ -83,7 +83,7 @@ const CommentWrap = styled.article`
    .line {
       width: 2px;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.05);
+      background: ${(props) => props.theme.grey_light};
       display: flex;
       justify-content: center;
       margin: 1.5rem 0;
@@ -152,7 +152,7 @@ const InnerComment = styled.article`
    .inner-line {
       width: 2px;
       height: 90%;
-      background-color: rgba(0, 0, 0, 0.05);
+      background: ${(props) => props.theme.grey_light};
       display: flex;
       justify-content: center;
    }
@@ -178,7 +178,7 @@ const InnerComment = styled.article`
 
       span {
          color: ${(props) => props.theme.purple};
-         font-weight: ${typography.weight.semibold};
+         font-weight: ${typography.weight.bold};
       }
    }
 
