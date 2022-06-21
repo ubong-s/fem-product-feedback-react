@@ -9,9 +9,10 @@ import { breakpoints, misc, typography } from '../../styles';
 import SuggestionCard from './SuggestionCard';
 
 const SuggestionsContent = () => {
-   const requests = useSelector(
-      (state) => state.productRequests.filteredRequests
-   );
+   const {
+      suggestion: suggestions,
+      filters: { sort },
+   } = useSelector((state) => state.productRequests);
 
    return (
       <SuggestionsContentWrap>
@@ -22,21 +23,21 @@ const SuggestionsContent = () => {
                   src='/assets/suggestions/icon-suggestions.svg'
                   alt='icon-suggestions'
                />
-               <p>{requests.length} Suggestions</p>
+               <p>{suggestions.length} Suggestions</p>
             </div>
             <div className='sort'>
-               <label htmlFor='sort'>Sort by:</label>
-               <select name='sort' id='sort'>
-                  <option value='first'>first</option>
-                  <option value='second'>second</option>
-                  <option value='third'>third</option>
-                  <option value='fourth'>fourth</option>
-               </select>
+               <span>Sort by: {sort}</span>
+               <div className='options'>
+                  <span>Most Upvotes</span>
+                  <span>Most Upvotes</span>
+                  <span>Most Upvotes</span>
+                  <span>Most Upvotes</span>
+               </div>
             </div>
             <button className='btn add-btn'>+ Add Feeback</button>
          </SortAdd>
          <Suggestions>
-            {requests.map((s) => (
+            {suggestions.map((s) => (
                <SuggestionCard key={s.id} {...s} />
             ))}
          </Suggestions>
@@ -58,12 +59,29 @@ const SortAdd = styled.div`
 
    .suggestions-count {
       display: none;
+
+      p {
+         color: ${(props) => props.theme.white};
+      }
    }
 
    .sort {
-      label {
+      position: relative;
+      span {
          color: ${(props) => props.theme.white};
          margin-right: 0.5rem;
+      }
+
+      .options {
+         position: absolute;
+         background-color: ${(props) => props.theme.white};
+         display: flex;
+         flex-direction: column;
+
+         span {
+            color: red;
+            padding: 0.5rem 1rem;
+         }
       }
 
       select {

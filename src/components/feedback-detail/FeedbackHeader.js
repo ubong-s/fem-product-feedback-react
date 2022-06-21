@@ -12,6 +12,7 @@ const FeedbackHeader = ({
    description,
    category,
    upvotes,
+   upvoted,
    comments,
 }) => {
    const dispatch = useDispatch();
@@ -20,7 +21,7 @@ const FeedbackHeader = ({
       <FeedbackHeaderWrap>
          <span className='upvote-count tablet'>
             <button
-               className='btn upvote-btn'
+               className={upvoted ? 'btn upvote-btn active' : 'btn  upvote-btn'}
                onClick={() => {
                   dispatch(upvoteRequest(id));
                }}
@@ -46,7 +47,11 @@ const FeedbackHeader = ({
 
          <span className='upvote-count'>
             <button
-               className=' btn mobile upvote-btn'
+               className={
+                  upvoted
+                     ? 'btn mobile upvote-btn active'
+                     : 'btn mobile upvote-btn'
+               }
                onClick={() => {
                   dispatch(upvoteRequest(id));
                }}
@@ -115,6 +120,12 @@ const FeedbackHeaderWrap = styled.article`
       .upvote-btn {
          position: relative;
          z-index: 20;
+         transition: background-color 0.3s ease-in-out;
+
+         &:hover,
+         &.active {
+            background-color: ${(props) => props.theme.grey_hover};
+         }
       }
    }
 
@@ -136,7 +147,7 @@ const FeedbackHeaderWrap = styled.article`
          .btn {
             flex-direction: column;
             padding: 0.85rem;
-            min-width: 40px;
+            min-width: 50px;
          }
       }
    }

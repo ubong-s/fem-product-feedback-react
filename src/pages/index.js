@@ -2,8 +2,16 @@ import styled from 'styled-components';
 import { Seo } from '../components/shared';
 import { Header, SuggestionsContent } from '../components/suggestions';
 import { breakpoints } from '../styles';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { fetchStatuses } from '../redux/features/product-requests/productRequestsSlice';
 
 export default function Home() {
+   const dispatch = useDispatch();
+   useEffect(() => {
+      dispatch(fetchStatuses());
+   }, []);
+
    return (
       <>
          <Seo />

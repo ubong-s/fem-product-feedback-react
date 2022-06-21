@@ -1,18 +1,45 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { breakpoints, misc, typography } from '../../styles';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateFilters } from '../../redux/features/product-requests/productRequestsSlice';
+
+const categories = [
+   { id: 1, type: 'All' },
+   { id: 2, type: 'UI' },
+   { id: 3, type: 'UX' },
+   { id: 4, type: 'Enhancement' },
+   { id: 5, type: 'Feature' },
+   { id: 6, type: 'Bug' },
+];
 
 const HeaderNav = ({ menuOpen }) => {
+   const dispatch = useDispatch();
+   const {
+      planned,
+      in_progress,
+      live,
+      filters: { category },
+   } = useSelector((state) => state.productRequests);
+
    return (
       <HeaderNavWrap className={menuOpen && 'active'}>
          <div className='header-nav-inner'>
             <div className='categories'>
-               <button className='btn'>All</button>
-               <button className='btn'>UI</button>
-               <button className='btn'>UX</button>
-               <button className='btn'>Enhancement</button>
-               <button className='btn'>Feature</button>
-               <button className='btn'>Bug</button>
+               {categories.map((c) => (
+                  <button
+                     className={category === c.type ? 'btn active' : 'btn'}
+                     key={c.id}
+                     name='category'
+                     onClick={(e) =>
+                        dispatch(
+                           updateFilters({ name: e.target.name, value: c.type })
+                        )
+                     }
+                  >
+                     {c.type}
+                  </button>
+               ))}
             </div>
             <div className='roadmap'>
                <div className='roadmap-intro'>
@@ -22,17 +49,17 @@ const HeaderNav = ({ menuOpen }) => {
                <p className='roadmap-item'>
                   <span className='circle orange'></span>
                   <span>Planned</span>
-                  <span className='number'>2</span>
+                  <span className='number'>{planned?.length}</span>
                </p>
                <p className='roadmap-item'>
                   <span className='circle purple'></span>
                   <span>In-Progress</span>
-                  <span className='number'>3</span>
+                  <span className='number'>{in_progress?.length}</span>
                </p>
                <p className='roadmap-item'>
                   <span className='circle blue'></span>
                   <span>Live</span>
-                  <span className='number'>1</span>
+                  <span className='number'>{live?.length}</span>
                </p>
             </div>
          </div>
@@ -82,6 +109,15 @@ const HeaderNavWrap = styled.nav`
          align-items: flex-start;
          flex-wrap: wrap;
          gap: 0.5rem;
+
+         .btn {
+            transition: background-color 0.3s ease-in-out;
+
+            &.active {
+               background-color: ${(props) => props.theme.blue} !important;
+               color: ${(props) => props.theme.white};
+            }
+         }
       }
 
       .roadmap {

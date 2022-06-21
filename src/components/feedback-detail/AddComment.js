@@ -1,7 +1,10 @@
+import { useState } from 'react';
 import styled from 'styled-components';
-import { breakpoints, misc } from '../../styles';
+import { misc } from '../../styles';
 
 const AddComment = () => {
+   const [message, setMessage] = useState('');
+   const [messageCount, setMessageCount] = useState(255);
    return (
       <AddCommentWrap>
          <h2>Add Comment</h2>
@@ -10,9 +13,15 @@ const AddComment = () => {
                name=''
                id=''
                placeholder='Type your comment here'
+               value={message}
+               maxLength={255}
+               onChange={(e) => {
+                  setMessage(e.target.value);
+                  setMessageCount((prev) => prev - 1);
+               }}
             ></textarea>
             <div className='form-footer'>
-               <p>255 characters left</p>
+               <p>{messageCount} characters left</p>
                <button type='submit' className='btn add-btn'>
                   Post Comment
                </button>
