@@ -1,13 +1,10 @@
 import { createAction, createSlice } from '@reduxjs/toolkit';
 import data from '../../../data/data.json';
-
-function filterStatus(requests, statusParams) {
-   return requests.filter((status) => status?.status === statusParams);
-}
-
-function replaceSpace(str) {
-   return str.replace('-', '_');
-}
+import {
+   filterStatus,
+   replaceSpace,
+   ascendDescend,
+} from '../../../utils/helpers';
 
 const statuses = [
    ...new Set(data.productRequests.map((request) => request.status)),
@@ -44,13 +41,42 @@ export const productRequestsSlice = createSlice({
          let tempRequests = [...filterStatus(state.allRequests, 'suggestion')];
 
          if (state.filters.category !== 'All') {
-            tempRequests = state.suggestion.filter(
+            tempRequests = tempRequests.filter(
                (request) =>
                   request.category.toLowerCase() ===
                   state.filters.category.toLowerCase()
             );
+         }
 
-            console.log(tempRequests);
+         if (state.filters.sort) {
+            if (state.filters.sort === 'Most Upvotes') {
+               tempRequests = ascendDescend(
+                  tempRequests,
+                  'upvotes',
+                  'descending'
+               );
+            }
+            if (state.filters.sort === 'Least Upvotes') {
+               tempRequests = ascendDescend(
+                  tempRequests,
+                  'upvotes',
+                  'ascending'
+               );
+            }
+            if (state.filters.sort === 'Most Comments') {
+               tempRequests = ascendDescend(
+                  tempRequests,
+                  'comments',
+                  'descending'
+               );
+            }
+            if (state.filters.sort === 'Least Comments') {
+               tempRequests = ascendDescend(
+                  tempRequests,
+                  'comments',
+                  'ascending'
+               );
+            }
          }
 
          state.suggestion = tempRequests;

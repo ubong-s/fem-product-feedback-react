@@ -48,7 +48,7 @@ const SuggestionsContent = () => {
                <p className='sort-msg'>
                   Sort by: <span onClick={toggleSort}>{sort}</span>
                   <button
-                     className={sortActive && 'active'}
+                     className={sortActive ? 'active' : null}
                      onClick={toggleSort}
                   >
                      <svg
