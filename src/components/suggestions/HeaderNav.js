@@ -74,7 +74,7 @@ const HeaderNavWrap = styled.nav`
 
    &::before {
       content: '';
-      position: absolute;
+      position: fixed;
       left: 0;
       top: 80px;
       height: calc(100% - 80px);
@@ -82,10 +82,11 @@ const HeaderNavWrap = styled.nav`
       background-color: rgba(0, 0, 0, 0.5);
       transform: translateX(-100vw);
       transition: all 0.5s ease-in-out;
+      opacity: 0;
    }
 
    .header-nav-inner {
-      position: absolute;
+      position: fixed;
       right: 0;
       top: 80px;
       width: 300px;
@@ -93,8 +94,9 @@ const HeaderNavWrap = styled.nav`
       background: ${(props) => props.theme.grey_light};
       gap: 1.5rem;
       padding: 0 1.5rem;
-      transform: translateX(-100vw);
+      transform: translateX(100%);
       transition: all 0.5s ease-in-out;
+      opacity: 0;
 
       .categories,
       .roadmap {
@@ -172,10 +174,14 @@ const HeaderNavWrap = styled.nav`
    &.active {
       &::before {
          transform: translateX(0);
+         z-index: 20;
+         opacity: 1;
       }
 
       .header-nav-inner {
          transform: translateX(0);
+         z-index: 20;
+         opacity: 1;
       }
    }
 
@@ -199,6 +205,7 @@ const HeaderNavWrap = styled.nav`
          grid-template-columns: repeat(2, 1fr);
          gap: 0.5rem;
          transform: unset;
+         opacity: 1;
 
          .categories,
          .roadmap {

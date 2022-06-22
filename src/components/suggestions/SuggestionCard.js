@@ -127,8 +127,6 @@ const SuggestionCardWrap = styled.article`
       }
 
       .upvote-btn {
-         position: relative;
-         z-index: 20;
          transition: background-color 0.3s ease-in-out;
 
          &:hover,

@@ -38,8 +38,22 @@ export const productRequestsSlice = createSlice({
       },
       updateFilters: (state, action) => {
          const { name, value } = action.payload;
-
          state.filters[name] = value;
+      },
+      filterSuggestions: (state) => {
+         let tempRequests = [...filterStatus(state.allRequests, 'suggestion')];
+
+         if (state.filters.category !== 'All') {
+            tempRequests = state.suggestion.filter(
+               (request) =>
+                  request.category.toLowerCase() ===
+                  state.filters.category.toLowerCase()
+            );
+
+            console.log(tempRequests);
+         }
+
+         state.suggestion = tempRequests;
       },
       upvoteRequest: (state, action) => {
          let id = action.payload;
@@ -64,7 +78,11 @@ export const productRequestsSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { upvoteRequest, fetchStatuses, updateFilters } =
-   productRequestsSlice.actions;
+export const {
+   upvoteRequest,
+   fetchStatuses,
+   updateFilters,
+   filterSuggestions,
+} = productRequestsSlice.actions;
 
 export default productRequestsSlice.reducer;
