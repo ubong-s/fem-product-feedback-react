@@ -18,7 +18,7 @@ const initialState = {
    planned: [],
    in_progress: [],
    live: [],
-   filters: { category: 'All', sort: 'Most Upvotes' },
+   filters: { category: 'All', sort: 'Most Upvotes', roadmapMobile: 'planned' },
 };
 
 export const productRequestsSlice = createSlice({
@@ -99,6 +99,12 @@ export const productRequestsSlice = createSlice({
 
          state.allRequests = upvoteFunc(state.allRequests);
          state.suggestion = upvoteFunc(state.suggestion);
+         state.planned = upvoteFunc(state.planned);
+         state.live = upvoteFunc(state.live);
+         state.in_progress = upvoteFunc(state.in_progress);
+      },
+      toggleRoadMapMobile: (state, action) => {
+         state.filters.roadmapMobile = action.payload;
       },
    },
 });
@@ -109,6 +115,7 @@ export const {
    fetchStatuses,
    updateFilters,
    filterSuggestions,
+   toggleRoadMapMobile,
 } = productRequestsSlice.actions;
 
 export default productRequestsSlice.reducer;

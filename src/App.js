@@ -1,11 +1,19 @@
+import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages';
 import RoadMap from './pages/roadmap';
 import AddFeedback from './pages/feedback/add-feedback';
 import NotFound from './pages/notFound';
 import SingleFeedbackDetail from './pages/feedback-detail/singleFeedbackDetail';
+import { fetchStatuses } from './redux/features/product-requests/productRequestsSlice';
+import { useDispatch } from 'react-redux';
 
 function App() {
+   const dispatch = useDispatch();
+
+   useEffect(() => {
+      dispatch(fetchStatuses());
+   }, []);
    return (
       <>
          <Routes>

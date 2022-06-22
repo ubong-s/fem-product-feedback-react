@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { typography } from '../../styles';
+import { breakpoints, misc, typography } from '../../styles';
 
 const RoadmapHeader = () => {
    return (
@@ -41,6 +41,20 @@ const RoadmapHeaderWrap = styled.header`
       h1 {
          font-size: 1.25rem;
          margin-top: 0.25rem;
+         color: ${(props) => props.theme.white};
+      }
+   }
+
+   @media screen and (min-width: ${breakpoints.tablet}) {
+      border-radius: ${misc.rounded.sm};
+      align-items: center;
+      padding: 2rem;
+
+      .go-back {
+         h1 {
+            font-size: 1.55rem;
+            margin-top: 1rem;
+         }
       }
    }
 `;

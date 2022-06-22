@@ -4,17 +4,11 @@ import { Header, SuggestionsContent } from '../components/suggestions';
 import { breakpoints } from '../styles';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-   fetchStatuses,
-   filterSuggestions,
-} from '../redux/features/product-requests/productRequestsSlice';
+import { filterSuggestions } from '../redux/features/product-requests/productRequestsSlice';
 
 export default function Home() {
    const dispatch = useDispatch();
    const { filters } = useSelector((state) => state.productRequests);
-   useEffect(() => {
-      dispatch(fetchStatuses());
-   }, []);
 
    useEffect(() => {
       dispatch(filterSuggestions());
