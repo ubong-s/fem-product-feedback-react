@@ -104,6 +104,11 @@ const SuggestionCardWrap = styled.article`
 
    h3 {
       margin-bottom: 1rem;
+      transition: color 0.3s ease-in-out;
+
+      &:hover {
+         color: ${(props) => props.theme.blue};
+      }
    }
 
    p {
@@ -131,7 +136,21 @@ const SuggestionCardWrap = styled.article`
 
          &:hover,
          &.active {
-            background-color: ${(props) => props.theme.grey_hover};
+            color: ${(props) => props.theme.white};
+            background-color: ${(props) => props.theme.blue};
+
+            svg {
+               path {
+                  stroke: ${(props) => props.theme.white};
+               }
+            }
+         }
+
+         &.active {
+            transition: opacity 0.3s ease-in-out;
+            &:hover {
+               opacity: 0.6;
+            }
          }
       }
    }

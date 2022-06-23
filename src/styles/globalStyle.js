@@ -54,6 +54,16 @@ const bodyStyles = css`
       letter-spacing: 0.5px;
    }
 
+   input,
+   textarea {
+      width: 100%;
+      border-radius: ${misc.rounded.sm};
+      padding: 1rem;
+      outline: none;
+      border: none;
+      background: ${(props) => props.theme.grey_light};
+   }
+
    .container {
       width: 88%;
       margin: auto;
@@ -79,16 +89,28 @@ const bodyStyles = css`
       text-transform: capitalize;
    }
 
-   .add-btn {
-      background-color: ${(props) => props.theme.purple};
+   .add-btn,
+   .edit-btn,
+   .cancel-btn {
       color: ${(props) => props.theme.white};
       padding: 0.75rem 1.5rem;
+      transition: all 0.3s ease-in-out;
+
+      &:hover {
+         opacity: 0.8;
+      }
+   }
+
+   .add-btn {
+      background-color: ${(props) => props.theme.purple};
    }
 
    .edit-btn {
       background-color: ${(props) => props.theme.blue};
-      color: ${(props) => props.theme.white};
-      padding: 0.75rem 1.5rem;
+   }
+
+   .cancel-btn {
+      background-color: ${(props) => props.theme.dark_blue};
    }
 
    .no-style-btn {

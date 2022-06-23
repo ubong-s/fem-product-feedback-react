@@ -27,7 +27,6 @@ export default Roadmap;
 
 const RoadmapWrap = styled.main`
    padding-bottom: 1rem;
-   min-height: unset !important;
 
    @media screen and (min-width: ${breakpoints.tablet}) {
       padding: 5rem 0;

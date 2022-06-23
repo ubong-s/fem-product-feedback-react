@@ -29,6 +29,7 @@ export default function Home() {
 
 const HomeWrap = styled.main`
    padding-bottom: 1rem;
+
    @media screen and (min-width: ${breakpoints.tablet}) {
       min-height: 100vh;
       padding: 5rem 0;

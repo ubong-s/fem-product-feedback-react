@@ -3,15 +3,7 @@ import styled from 'styled-components';
 import { breakpoints, misc, typography } from '../../styles';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateFilters } from '../../redux/features/product-requests/productRequestsSlice';
-
-const categories = [
-   { id: 1, type: 'All' },
-   { id: 2, type: 'UI' },
-   { id: 3, type: 'UX' },
-   { id: 4, type: 'Enhancement' },
-   { id: 5, type: 'Feature' },
-   { id: 6, type: 'Bug' },
-];
+import { categories } from '../../data/formSelect';
 
 const HeaderNav = ({ menuOpen }) => {
    const dispatch = useDispatch();

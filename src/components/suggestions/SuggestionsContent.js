@@ -1,6 +1,7 @@
 // redux
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 // styles
 import styled from 'styled-components';
@@ -9,13 +10,8 @@ import { breakpoints, misc, typography } from '../../styles';
 
 // components
 import SuggestionCard from './SuggestionCard';
-
-const sortBtns = [
-   { id: 1, type: 'Most Upvotes' },
-   { id: 2, type: 'Least Upvotes' },
-   { id: 3, type: 'Most Comments' },
-   { id: 4, type: 'Least Comments' },
-];
+import { sortBtns } from '../../data/formSelect';
+import SuggestionsEmpty from './SuggestionsEmpty';
 
 const SuggestionsContent = () => {
    const [sortActive, setSortActive] = useState(false);
@@ -100,13 +96,19 @@ const SuggestionsContent = () => {
                   ))}
                </div>
             </Sort>
-            <button className='btn add-btn'>+ Add Feedback</button>
+            <Link to='/feedback/add-feedback'>
+               <button className='btn add-btn'>+ Add Feedback</button>
+            </Link>
          </SortAdd>
-         <Suggestions>
-            {suggestions.map((s) => (
-               <SuggestionCard key={s.id} {...s} />
-            ))}
-         </Suggestions>
+         {suggestions.length < 1 ? (
+            <SuggestionsEmpty />
+         ) : (
+            <Suggestions>
+               {suggestions.map((s) => (
+                  <SuggestionCard key={s.id} {...s} />
+               ))}
+            </Suggestions>
+         )}
       </SuggestionsContentWrap>
    );
 };
@@ -116,8 +118,8 @@ export default SuggestionsContent;
 const SuggestionsContentWrap = styled.section``;
 
 const SortAdd = styled.div`
-   display: grid;
-   grid-template-columns: repeat(2, 1fr);
+   display: flex;
+   justify-content: space-between;
    align-items: center;
    gap: 2rem;
    background-color: ${(props) => props.theme.dark_blue};
@@ -133,6 +135,7 @@ const SortAdd = styled.div`
 
    @media screen and (min-width: ${breakpoints.tablet}) {
       border-radius: ${misc.rounded.sm};
+      display: grid;
       grid-template-columns: auto 1fr auto;
       padding: 0.75rem 1rem 0.75rem 1.5rem;
 

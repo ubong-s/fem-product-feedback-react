@@ -8,12 +8,25 @@ const RoadmapHeader = () => {
       <RoadmapHeaderWrap>
          <div className='go-back'>
             <Link to='/'>
-               <span>{'<'}</span> Go Back
+               <span>
+                  <svg width='7' height='10' xmlns='http://www.w3.org/2000/svg'>
+                     <path
+                        d='M6 9L2 5l4-4'
+                        stroke='#4661E6'
+                        strokeWidth='2'
+                        fill='none'
+                        fillRule='evenodd'
+                     />
+                  </svg>
+               </span>{' '}
+               Go Back
             </Link>
             <h1>Roadmap</h1>
          </div>
 
-         <button className='add-btn btn'>+ add Feedback</button>
+         <Link to='/feedback/add-feedback'>
+            <button className='add-btn btn'>+ add Feedback</button>
+         </Link>
       </RoadmapHeaderWrap>
    );
 };
@@ -35,6 +48,12 @@ const RoadmapHeaderWrap = styled.header`
 
          span {
             margin-right: 0.5rem;
+
+            svg {
+               path {
+                  stroke: white;
+               }
+            }
          }
       }
 

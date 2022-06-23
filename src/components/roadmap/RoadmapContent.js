@@ -50,11 +50,10 @@ const RoadmapContent = () => {
 export default RoadmapContent;
 
 const RoadmapContentWrap = styled.div`
-   padding: 2rem 1.5rem;
-   display: grid;
-   gap: 1rem;
+   padding: 3rem 1.5rem;
 
    @media screen and (min-width: ${breakpoints.tablet}) {
+      display: grid;
       gap: 0.75rem;
       padding: 2rem 0;
       grid-template-columns: repeat(3, 1fr);
@@ -62,6 +61,7 @@ const RoadmapContentWrap = styled.div`
 `;
 
 const RoadmapWrap = styled.div`
+   transform: translateX(-100vw);
    opacity: 0;
    height: 0;
    transition: all 0.3s ease-in-out;
@@ -71,11 +71,13 @@ const RoadmapWrap = styled.div`
    }
 
    &.active {
+      transform: translateX(0);
       opacity: 1;
       height: auto;
    }
 
    @media screen and (min-width: ${breakpoints.tablet}) {
+      transform: translateX(0);
       opacity: 1;
       height: auto;
    }
