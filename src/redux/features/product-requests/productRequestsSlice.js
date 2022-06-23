@@ -13,12 +13,11 @@ const statuses = [
 const initialState = {
    currentUser: data.currentUser,
    allRequests: [...data.productRequests],
-   filteredRequests: [...data.productRequests],
    suggestion: [],
    planned: [],
    in_progress: [],
    live: [],
-   filters: { category: 'All', sort: 'Most Upvotes', roadmapMobile: 'planned' },
+   filters: { category: 'all', sort: 'Most Upvotes', roadmapMobile: 'planned' },
 };
 
 export const productRequestsSlice = createSlice({
@@ -40,7 +39,7 @@ export const productRequestsSlice = createSlice({
       filterSuggestions: (state) => {
          let tempRequests = [...filterStatus(state.allRequests, 'suggestion')];
 
-         if (state.filters.category !== 'All') {
+         if (state.filters.category !== 'all') {
             tempRequests = tempRequests.filter(
                (request) =>
                   request.category.toLowerCase() ===
