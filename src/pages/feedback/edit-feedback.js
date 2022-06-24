@@ -1,17 +1,49 @@
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { BackBtn } from '../../components/shared';
+import { BackBtn, Seo } from '../../components/shared';
 import { categories, statuses } from '../../data/formSelect';
 import { breakpoints, misc, typography } from '../../styles';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useFormik } from 'formik';
+import { editCurrentFeedback } from '../../redux/features/product-requests/productRequestsSlice';
+import { validate } from '../../utils/helpers';
 
 const EditFeedback = () => {
-   const {} = useSelector((state) => state.editForm);
+   const dispatch = useDispatch();
+   const navigate = useNavigate();
+   const { id } = useParams();
+   const { allRequests } = useSelector((state) => state.productRequests);
    const [sortCategory, setSortCategory] = useState(false);
    const [sortStatus, setSortStatus] = useState(false);
-   const [category, setCategory] = useState('feature');
-   const [status, setStatus] = useState('suggestion');
+   const currentFeedback = allRequests.find(
+      (request) => Number(request.id) === Number(id)
+   );
+
+   // const [title, setTitle] = useState(currentFeedback.title);
+   // const [description, setDescription] = useState(currentFeedback.description);
+   const [category, setCategory] = useState(currentFeedback.category);
+   const [status, setStatus] = useState(currentFeedback.status);
+
+   const formik = useFormik({
+      initialValues: {
+         title: currentFeedback.title,
+         description: currentFeedback.description,
+      },
+      validate,
+      onSubmit: (values) => {
+         console.log(values);
+         dispatch(
+            editCurrentFeedback({
+               ...values,
+               id,
+               category,
+               status,
+            })
+         );
+         navigate(-1);
+      },
+   });
 
    const toggleSortCategory = () => {
       setSortStatus(false);
@@ -28,100 +60,185 @@ const EditFeedback = () => {
       setSortCategory(false);
    };
 
+   const deleteFeedback = () => {
+      navigate(-1);
+   };
+   const cancelFeedbackChange = () => {
+      navigate(-1);
+   };
+
    return (
-      <EditFeedbackWrap>
-         <div className='container'>
-            <BackBtn />
+      <>
+         <Seo title='Edit Feedback' />
+         <EditFeedbackWrap>
+            <div className='container'>
+               <BackBtn />
 
-            <FormWrap
-               onClick={(e) => {
-                  e.preventDefault();
-               }}
-            >
-               <div className='icon'>
-                  <svg
-                     width='40'
-                     height='40'
-                     xmlns='http://www.w3.org/2000/svg'
-                  >
-                     <defs>
-                        <radialGradient
-                           cx='103.9%'
-                           cy='-10.387%'
-                           fx='103.9%'
-                           fy='-10.387%'
-                           r='166.816%'
-                           id='a'
-                        >
-                           <stop stopColor='#E84D70' offset='0%' />
-                           <stop stopColor='#A337F6' offset='53.089%' />
-                           <stop stopColor='#28A7ED' offset='100%' />
-                        </radialGradient>
-                     </defs>
-                     <g fill='none' fillRule='evenodd'>
-                        <circle fill='url(#a)' cx='20' cy='20' r='20' />
-                        <path
-                           d='M19.512 15.367l4.975 4.53-3.8 5.54L11.226 29l4.485-4.1c.759.275 1.831.026 2.411-.594a1.958 1.958 0 00-.129-2.82c-.836-.745-2.199-.745-2.964.068-.57.607-.767 1.676-.44 2.381L11 28.713c.255-1.06.683-2.75 1.115-4.436l.137-.531c.658-2.563 1.287-4.964 1.287-4.964l5.973-3.415zM23.257 12L28 16.443l-2.584 2.606-4.89-4.583L23.257 12z'
-                           fill='#FFF'
-                           fillRule='nonzero'
-                        />
-                     </g>
-                  </svg>
-               </div>
-
-               <h1>Editing Feedback</h1>
-
-               <Form>
-                  <div className='form-group'>
-                     <label htmlFor='title' className='form-label'>
-                        <span> Feedback Title</span>Add a short, descriptive
-                        headline
-                     </label>
-                     <input type='text' name='title' />
-                  </div>
-                  <div className='form-group'>
-                     <p className='form-label'>
-                        <span>Category</span>
-                        Choose a category for your feedback
-                     </p>
-                     <div
-                        className='options-btn'
-                        onClick={(e) => {
-                           e.preventDefault();
-                           toggleSortCategory();
-                        }}
+               <FormWrap>
+                  <div className='icon'>
+                     <svg
+                        width='40'
+                        height='40'
+                        xmlns='http://www.w3.org/2000/svg'
                      >
-                        <span>{category}</span>
-                        <button className={sortCategory ? 'active' : null}>
-                           <svg
-                              width='10'
-                              height='7'
-                              xmlns='http://www.w3.org/2000/svg'
+                        <defs>
+                           <radialGradient
+                              cx='103.9%'
+                              cy='-10.387%'
+                              fx='103.9%'
+                              fy='-10.387%'
+                              r='166.816%'
+                              id='a'
                            >
-                              <path
-                                 d='M1 1l4 4 4-4'
-                                 strokeWidth='2'
-                                 fill='none'
-                                 fillRule='evenodd'
-                              />
-                           </svg>
-                        </button>
+                              <stop stopColor='#E84D70' offset='0%' />
+                              <stop stopColor='#A337F6' offset='53.089%' />
+                              <stop stopColor='#28A7ED' offset='100%' />
+                           </radialGradient>
+                        </defs>
+                        <g fill='none' fillRule='evenodd'>
+                           <circle fill='url(#a)' cx='20' cy='20' r='20' />
+                           <path
+                              d='M19.512 15.367l4.975 4.53-3.8 5.54L11.226 29l4.485-4.1c.759.275 1.831.026 2.411-.594a1.958 1.958 0 00-.129-2.82c-.836-.745-2.199-.745-2.964.068-.57.607-.767 1.676-.44 2.381L11 28.713c.255-1.06.683-2.75 1.115-4.436l.137-.531c.658-2.563 1.287-4.964 1.287-4.964l5.973-3.415zM23.257 12L28 16.443l-2.584 2.606-4.89-4.583L23.257 12z'
+                              fill='#FFF'
+                              fillRule='nonzero'
+                           />
+                        </g>
+                     </svg>
+                  </div>
+
+                  <h1>Editing Feedback</h1>
+
+                  <Form onSubmit={formik.handleSubmit}>
+                     <div className='form-group'>
+                        <label htmlFor='title' className='form-label'>
+                           <span> Feedback Title</span>Add a short, descriptive
+                           headline
+                        </label>
+                        <input
+                           type='text'
+                           name='title'
+                           onChange={formik.handleChange}
+                           value={formik.values.title}
+                        />
+                        {formik.errors.title ? (
+                           <span className='error-msg'>
+                              {formik.errors.title}
+                           </span>
+                        ) : null}
                      </div>
-                     <div
-                        className={sortCategory ? 'options active' : 'options'}
-                     >
-                        {categories
-                           .filter((cat) => cat.type !== 'all')
-                           .map((c) => (
+                     <div className='form-group'>
+                        <p className='form-label'>
+                           <span>Category</span>
+                           Choose a category for your feedback
+                        </p>
+                        <div
+                           className='options-btn'
+                           onClick={(e) => {
+                              e.preventDefault();
+                              toggleSortCategory();
+                           }}
+                        >
+                           <span>{category}</span>
+                           <button
+                              type='button'
+                              className={sortCategory ? 'active' : null}
+                           >
+                              <svg
+                                 width='10'
+                                 height='7'
+                                 xmlns='http://www.w3.org/2000/svg'
+                              >
+                                 <path
+                                    d='M1 1l4 4 4-4'
+                                    strokeWidth='2'
+                                    fill='none'
+                                    fillRule='evenodd'
+                                 />
+                              </svg>
+                           </button>
+                        </div>
+                        <div
+                           className={
+                              sortCategory ? 'options active' : 'options'
+                           }
+                        >
+                           {categories
+                              .filter((cat) => cat.type !== 'all')
+                              .map((c) => (
+                                 <button
+                                    type='button'
+                                    key={c.id}
+                                    onClick={(e) => {
+                                       setCategory(c.type);
+                                       closeSort();
+                                    }}
+                                 >
+                                    <span>{c.text}</span>
+                                    {category === c.type && (
+                                       <span>
+                                          <svg
+                                             xmlns='http://www.w3.org/2000/svg'
+                                             width='13'
+                                             height='11'
+                                          >
+                                             <path
+                                                fill='none'
+                                                stroke='#AD1FEA'
+                                                strokeWidth='2'
+                                                d='M1 5.233L4.522 9 12 1'
+                                             />
+                                          </svg>
+                                       </span>
+                                    )}
+                                 </button>
+                              ))}
+                        </div>
+                     </div>
+                     <div className='form-group'>
+                        <p className='form-label'>
+                           <span>Update Status</span>
+                           Change feature State
+                        </p>
+                        <div
+                           className='options-btn'
+                           onClick={(e) => {
+                              e.preventDefault();
+                              toggleSortStatus();
+                           }}
+                        >
+                           <span>{status}</span>
+                           <button
+                              type='button'
+                              className={sortStatus ? 'active' : null}
+                           >
+                              <svg
+                                 width='10'
+                                 height='7'
+                                 xmlns='http://www.w3.org/2000/svg'
+                              >
+                                 <path
+                                    d='M1 1l4 4 4-4'
+                                    strokeWidth='2'
+                                    fill='none'
+                                    fillRule='evenodd'
+                                 />
+                              </svg>
+                           </button>
+                        </div>
+                        <div
+                           className={sortStatus ? 'options active' : 'options'}
+                        >
+                           {statuses.map((s) => (
                               <button
-                                 key={c.id}
+                                 type='button'
+                                 key={s.id}
                                  onClick={(e) => {
-                                    setCategory(c.type);
+                                    setStatus(s.type);
                                     closeSort();
                                  }}
                               >
-                                 <span>{c.text}</span>
-                                 {category === c.type && (
+                                 <span>{s.type}</span>
+                                 {status === s.type && (
                                     <span>
                                        <svg
                                           xmlns='http://www.w3.org/2000/svg'
@@ -139,89 +256,50 @@ const EditFeedback = () => {
                                  )}
                               </button>
                            ))}
+                        </div>
                      </div>
-                  </div>
-                  <div className='form-group'>
-                     <p className='form-label'>
-                        <span>Update Status</span>
-                        Change feature State
-                     </p>
-                     <div
-                        className='options-btn'
-                        onClick={(e) => {
-                           e.preventDefault();
-                           toggleSortStatus();
-                        }}
-                     >
-                        <span>{status}</span>
-                        <button className={sortStatus ? 'active' : null}>
-                           <svg
-                              width='10'
-                              height='7'
-                              xmlns='http://www.w3.org/2000/svg'
-                           >
-                              <path
-                                 d='M1 1l4 4 4-4'
-                                 strokeWidth='2'
-                                 fill='none'
-                                 fillRule='evenodd'
-                              />
-                           </svg>
+                     <div className='form-group'>
+                        <label htmlFor='description' className='form-label'>
+                           <span>Feedback Detail</span>
+                           Include any specific comments on what should be
+                           improved, added, etc.
+                        </label>
+                        <textarea
+                           type='text'
+                           name='description'
+                           onChange={formik.handleChange}
+                           value={formik.values.description}
+                        />
+                        {formik.errors.description ? (
+                           <span className='error-msg'>
+                              {formik.errors.description}
+                           </span>
+                        ) : null}
+                     </div>
+                     <div className='btn-wrap'>
+                        <button type='submit' className='btn add-btn'>
+                           Save Changes
+                        </button>
+                        <button
+                           type='button'
+                           className='btn cancel-btn'
+                           onClick={cancelFeedbackChange}
+                        >
+                           Cancel
+                        </button>
+                        <button
+                           type='button'
+                           className='btn delete-btn'
+                           onClick={deleteFeedback}
+                        >
+                           Delete
                         </button>
                      </div>
-                     <div className={sortStatus ? 'options active' : 'options'}>
-                        {statuses.map((s) => (
-                           <button
-                              key={s.id}
-                              onClick={(e) => {
-                                 // dispatch(
-                                 //    updateFilters({
-                                 //       name: 'sort',
-                                 //       value: c.type,
-                                 //    })
-                                 // );
-                                 setStatus(s.type);
-                                 closeSort();
-                              }}
-                           >
-                              <span>{s.type}</span>
-                              {status === s.type && (
-                                 <span>
-                                    <svg
-                                       xmlns='http://www.w3.org/2000/svg'
-                                       width='13'
-                                       height='11'
-                                    >
-                                       <path
-                                          fill='none'
-                                          stroke='#AD1FEA'
-                                          strokeWidth='2'
-                                          d='M1 5.233L4.522 9 12 1'
-                                       />
-                                    </svg>
-                                 </span>
-                              )}
-                           </button>
-                        ))}
-                     </div>
-                  </div>
-                  <div className='form-group'>
-                     <label htmlFor='detail' className='form-label'>
-                        <span>Feedback Detail</span>
-                        Include any specific comments on what should be
-                        improved, added, etc.
-                     </label>
-                     <textarea type='text' name='detail' />
-                  </div>
-                  <div className='btn-wrap'>
-                     <button className='btn add-btn'>Save Changes</button>
-                     <button className='btn cancel-btn'>Cancel</button>
-                     <button className='btn delete-btn'>Delete</button>
-                  </div>
-               </Form>
-            </FormWrap>
-         </div>
-      </EditFeedbackWrap>
+                  </Form>
+               </FormWrap>
+            </div>
+         </EditFeedbackWrap>
+      </>
    );
 };
 

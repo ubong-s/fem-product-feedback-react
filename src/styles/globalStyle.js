@@ -62,6 +62,7 @@ const bodyStyles = css`
       outline: none;
       border: none;
       background: ${(props) => props.theme.grey_light};
+      color: ${(props) => props.theme.grey_dark};
    }
 
    .container {

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { BackBtn } from '../../components/shared';
+import { BackBtn, Seo } from '../../components/shared';
 import { categories } from '../../data/formSelect';
 import { breakpoints, misc, typography } from '../../styles';
 import { addNewFeedback } from '../../redux/features/product-requests/productRequestsSlice';
@@ -15,7 +15,7 @@ const AddFeedback = () => {
    const formik = useFormik({
       initialValues: {
          title: '',
-         detail: '',
+         description: '',
       },
       validate,
       onSubmit: (values) => {
@@ -25,7 +25,7 @@ const AddFeedback = () => {
                category,
             })
          );
-         navigate(-1);
+         navigate('/');
       },
    });
 
@@ -46,155 +46,162 @@ const AddFeedback = () => {
    };
 
    return (
-      <AddFeedbackWrap>
-         <div className='container'>
-            <BackBtn />
+      <>
+         <Seo title='Add New Feedback' />
+         <AddFeedbackWrap>
+            <div className='container'>
+               <BackBtn />
 
-            <FormWrap>
-               <div className='icon'>
-                  <svg
-                     width='56'
-                     height='56'
-                     xmlns='http://www.w3.org/2000/svg'
-                  >
-                     <defs>
-                        <radialGradient
-                           cx='103.9%'
-                           cy='-10.387%'
-                           fx='103.9%'
-                           fy='-10.387%'
-                           r='166.816%'
-                           id='a'
-                        >
-                           <stop stopColor='#E84D70' offset='0%' />
-                           <stop stopColor='#A337F6' offset='53.089%' />
-                           <stop stopColor='#28A7ED' offset='100%' />
-                        </radialGradient>
-                     </defs>
-                     <g fill='none' fillRule='evenodd'>
-                        <circle fill='url(#a)' cx='28' cy='28' r='28' />
-                        <path
-                           fill='#FFF'
-                           fillRule='nonzero'
-                           d='M30.343 36v-5.834h5.686v-4.302h-5.686V20h-4.597v5.864H20v4.302h5.746V36z'
-                        />
-                     </g>
-                  </svg>
-               </div>
-
-               <h1>Create New Feedback</h1>
-
-               <Form onSubmit={formik.handleSubmit}>
-                  <div className='form-group'>
-                     <label htmlFor='title' className='form-label'>
-                        <span> Feedback Title</span>Add a short, descriptive
-                        headline
-                     </label>
-                     <input
-                        type='text'
-                        name='title'
-                        onChange={formik.handleChange}
-                        value={formik.values.title}
-                     />
-                     {formik.errors.title ? (
-                        <span className='error-msg'>{formik.errors.title}</span>
-                     ) : null}
-                  </div>
-                  <div className='form-group'>
-                     <p className='form-label'>
-                        <span>Category</span>
-                        Choose a category for your feedback
-                     </p>
-                     <div
-                        className='options-btn'
-                        onClick={(e) => {
-                           e.preventDefault();
-                           toggleSort();
-                        }}
+               <FormWrap>
+                  <div className='icon'>
+                     <svg
+                        width='56'
+                        height='56'
+                        xmlns='http://www.w3.org/2000/svg'
                      >
-                        <span>{category}</span>
-                        <button className={sortActive ? 'active' : null}>
-                           <svg
-                              width='10'
-                              height='7'
-                              xmlns='http://www.w3.org/2000/svg'
+                        <defs>
+                           <radialGradient
+                              cx='103.9%'
+                              cy='-10.387%'
+                              fx='103.9%'
+                              fy='-10.387%'
+                              r='166.816%'
+                              id='a'
                            >
-                              <path
-                                 d='M1 1l4 4 4-4'
-                                 strokeWidth='2'
-                                 fill='none'
-                                 fillRule='evenodd'
-                              />
-                           </svg>
+                              <stop stopColor='#E84D70' offset='0%' />
+                              <stop stopColor='#A337F6' offset='53.089%' />
+                              <stop stopColor='#28A7ED' offset='100%' />
+                           </radialGradient>
+                        </defs>
+                        <g fill='none' fillRule='evenodd'>
+                           <circle fill='url(#a)' cx='28' cy='28' r='28' />
+                           <path
+                              fill='#FFF'
+                              fillRule='nonzero'
+                              d='M30.343 36v-5.834h5.686v-4.302h-5.686V20h-4.597v5.864H20v4.302h5.746V36z'
+                           />
+                        </g>
+                     </svg>
+                  </div>
+
+                  <h1>Create New Feedback</h1>
+
+                  <Form onSubmit={formik.handleSubmit}>
+                     <div className='form-group'>
+                        <label htmlFor='title' className='form-label'>
+                           <span> Feedback Title</span>Add a short, descriptive
+                           headline
+                        </label>
+                        <input
+                           type='text'
+                           name='title'
+                           onChange={formik.handleChange}
+                           value={formik.values.title}
+                        />
+                        {formik.errors.title ? (
+                           <span className='error-msg'>
+                              {formik.errors.title}
+                           </span>
+                        ) : null}
+                     </div>
+                     <div className='form-group'>
+                        <p className='form-label'>
+                           <span>Category</span>
+                           Choose a category for your feedback
+                        </p>
+                        <div
+                           className='options-btn'
+                           onClick={(e) => {
+                              e.preventDefault();
+                              toggleSort();
+                           }}
+                        >
+                           <span>{category}</span>
+                           <button className={sortActive ? 'active' : null}>
+                              <svg
+                                 width='10'
+                                 height='7'
+                                 xmlns='http://www.w3.org/2000/svg'
+                              >
+                                 <path
+                                    d='M1 1l4 4 4-4'
+                                    strokeWidth='2'
+                                    fill='none'
+                                    fillRule='evenodd'
+                                 />
+                              </svg>
+                           </button>
+                        </div>
+                        <div
+                           className={sortActive ? 'options active' : 'options'}
+                        >
+                           {categories
+                              .filter((cat) => cat.type !== 'all')
+                              .map((c) => (
+                                 <button
+                                    type='button'
+                                    key={c.id}
+                                    onClick={() => {
+                                       setCategory(c.type);
+                                       closeSort();
+                                    }}
+                                 >
+                                    <span>{c.text}</span>
+                                    {category === c.type && (
+                                       <span>
+                                          <svg
+                                             xmlns='http://www.w3.org/2000/svg'
+                                             width='13'
+                                             height='11'
+                                          >
+                                             <path
+                                                fill='none'
+                                                stroke='#AD1FEA'
+                                                strokeWidth='2'
+                                                d='M1 5.233L4.522 9 12 1'
+                                             />
+                                          </svg>
+                                       </span>
+                                    )}
+                                 </button>
+                              ))}
+                        </div>
+                     </div>
+                     <div className='form-group'>
+                        <label htmlFor='description' className='form-label'>
+                           <span>Feedback Detail</span>
+                           Include any specific comments on what should be
+                           improved, added, etc.
+                        </label>
+                        <textarea
+                           type='text'
+                           name='description'
+                           onChange={formik.handleChange}
+                           value={formik.values.description}
+                        />
+                        {formik.errors.description ? (
+                           <span className='error-msg'>
+                              {formik.errors.description}
+                           </span>
+                        ) : null}
+                     </div>
+                     <div className='btn-wrap'>
+                        <button type='submit' className='btn add-btn'>
+                           Add Feedback
+                        </button>
+                        <button
+                           type='button'
+                           className='btn cancel-btn'
+                           onClick={cancelFeedbackSubmit}
+                        >
+                           Cancel
                         </button>
                      </div>
-                     <div className={sortActive ? 'options active' : 'options'}>
-                        {categories
-                           .filter((cat) => cat.type !== 'all')
-                           .map((c) => (
-                              <button
-                                 type='button'
-                                 key={c.id}
-                                 onClick={() => {
-                                    setCategory(c.type);
-                                    closeSort();
-                                 }}
-                              >
-                                 <span>{c.text}</span>
-                                 {category === c.type && (
-                                    <span>
-                                       <svg
-                                          xmlns='http://www.w3.org/2000/svg'
-                                          width='13'
-                                          height='11'
-                                       >
-                                          <path
-                                             fill='none'
-                                             stroke='#AD1FEA'
-                                             strokeWidth='2'
-                                             d='M1 5.233L4.522 9 12 1'
-                                          />
-                                       </svg>
-                                    </span>
-                                 )}
-                              </button>
-                           ))}
-                     </div>
-                  </div>
-                  <div className='form-group'>
-                     <label htmlFor='detail' className='form-label'>
-                        <span>Feedback Detail</span>
-                        Include any specific comments on what should be
-                        improved, added, etc.
-                     </label>
-                     <textarea
-                        type='text'
-                        name='detail'
-                        onChange={formik.handleChange}
-                        value={formik.values.detail}
-                     />
-                     {formik.errors.detail ? (
-                        <span className='error-msg'>
-                           {formik.errors.detail}
-                        </span>
-                     ) : null}
-                  </div>
-                  <div className='btn-wrap'>
-                     <button type='submit' className='btn add-btn'>
-                        Add Feedback
-                     </button>
-                     <button
-                        type='button'
-                        className='btn cancel-btn'
-                        onClick={cancelFeedbackSubmit}
-                     >
-                        Cancel
-                     </button>
-                  </div>
-               </Form>
-            </FormWrap>
-         </div>
-      </AddFeedbackWrap>
+                  </Form>
+               </FormWrap>
+            </div>
+         </AddFeedbackWrap>
+      </>
    );
 };
 

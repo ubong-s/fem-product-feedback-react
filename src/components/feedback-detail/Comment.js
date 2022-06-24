@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { breakpoints, typography } from '../../styles';
 
 const Comment = ({ comment }) => {
-   const { user, content, replies } = comment;
+   const { id, user, content, replies } = comment;
    return (
       <CommentWrap>
          <div className='tablet-block'>
@@ -24,6 +24,7 @@ const Comment = ({ comment }) => {
                <InnerCommentsWrap>
                   {replies.map((reply) => {
                      const { id, user, content, replyingTo } = reply;
+
                      return (
                         <InnerComment key={id}>
                            <div>

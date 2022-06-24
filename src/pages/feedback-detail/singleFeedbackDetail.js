@@ -13,6 +13,7 @@ import {
    FeedbackComments,
    AddComment,
 } from '../../components/feedback-detail';
+import { Seo } from '../../components/shared';
 
 const SingleFeedbackDetail = () => {
    const { id } = useParams();
@@ -21,12 +22,15 @@ const SingleFeedbackDetail = () => {
    const feedback = allRequests.find((request) => request.id === Number(id));
 
    return (
-      <SingleFeedbackDetailWrap className='container'>
-         <FeedbackDetailNav {...feedback} />
-         <FeedbackHeader {...feedback} />
-         <FeedbackComments comments={feedback.comments} />
-         <AddComment />
-      </SingleFeedbackDetailWrap>
+      <>
+         <Seo title={feedback.title} />
+         <SingleFeedbackDetailWrap className='container'>
+            <FeedbackDetailNav {...feedback} />
+            <FeedbackHeader {...feedback} />
+            <FeedbackComments comments={feedback.comments} />
+            <AddComment />
+         </SingleFeedbackDetailWrap>
+      </>
    );
 };
 

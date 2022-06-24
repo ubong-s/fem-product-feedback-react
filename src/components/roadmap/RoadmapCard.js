@@ -38,7 +38,7 @@ const RoadmapCard = ({
             <button
                className={upvoted ? 'btn upvote-btn active' : 'btn upvote-btn'}
                onClick={(e) => {
-                  dispatch(upvoteRequest(id));
+                  dispatch(upvoteRequest({ id, status }));
                   e.stopPropagation();
                }}
             >
@@ -124,10 +124,18 @@ const RoadmapCardWrap = styled.article`
       .upvote-btn {
          transition: background-color 0.3s ease-in-out;
 
+         span {
+            color: ${(props) => props.theme.dark_blue};
+         }
+
          &:hover,
          &.active {
             color: ${(props) => props.theme.white};
             background-color: ${(props) => props.theme.blue};
+
+            span {
+               color: ${(props) => props.theme.white};
+            }
 
             svg {
                path {

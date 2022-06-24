@@ -19,8 +19,8 @@ export const validate = (values) => {
       errors.title = `Can't be empty`;
    }
 
-   if (!values.detail) {
-      errors.detail = `Can't be empty`;
+   if (!values.description) {
+      errors.description = `Can't be empty`;
    }
 
    return errors;

@@ -14,6 +14,7 @@ const FeedbackHeader = ({
    upvotes,
    upvoted,
    comments,
+   status,
 }) => {
    const dispatch = useDispatch();
 
@@ -23,7 +24,7 @@ const FeedbackHeader = ({
             <button
                className={upvoted ? 'btn upvote-btn active' : 'btn  upvote-btn'}
                onClick={() => {
-                  dispatch(upvoteRequest(id));
+                  dispatch(upvoteRequest({ id, status }));
                }}
             >
                <svg width='10' height='7' xmlns='http://www.w3.org/2000/svg'>
@@ -53,7 +54,7 @@ const FeedbackHeader = ({
                      : 'btn mobile upvote-btn'
                }
                onClick={() => {
-                  dispatch(upvoteRequest(id));
+                  dispatch(upvoteRequest({ id, status }));
                }}
             >
                <svg width='10' height='7' xmlns='http://www.w3.org/2000/svg'>
@@ -127,10 +128,18 @@ const FeedbackHeaderWrap = styled.article`
          z-index: 20;
          transition: background-color 0.3s ease-in-out;
 
+         span {
+            color: ${(props) => props.theme.dark_blue};
+         }
+
          &:hover,
          &.active {
             color: ${(props) => props.theme.white};
             background-color: ${(props) => props.theme.blue};
+
+            span {
+               color: ${(props) => props.theme.white};
+            }
 
             svg {
                path {

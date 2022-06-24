@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, current } from '@reduxjs/toolkit';
 import data from '../../../data/data.json';
 import {
    filterStatus,
@@ -11,7 +11,6 @@ const statuses = [
 ];
 
 const initialState = {
-   currentUser: data.currentUser,
    allRequests: [...data.productRequests],
    suggestion: [],
    planned: [],
@@ -24,7 +23,7 @@ export const productRequestsSlice = createSlice({
    name: 'productRequests',
    initialState,
    reducers: {
-      fetchStatuses: (state) => {
+      fetchStatuses: (state, action) => {
          for (let i = 0; i < statuses.length; i++) {
             state[replaceSpace(statuses[i])] = filterStatus(
                state.allRequests,
@@ -81,7 +80,7 @@ export const productRequestsSlice = createSlice({
          state.suggestion = tempRequests;
       },
       upvoteRequest: (state, action) => {
-         let id = action.payload;
+         let { id, status } = action.payload;
 
          const upvoteFunc = (requests) =>
             requests.map((request) => {
@@ -97,16 +96,13 @@ export const productRequestsSlice = createSlice({
             });
 
          state.allRequests = upvoteFunc(state.allRequests);
-         state.suggestion = upvoteFunc(state.suggestion);
-         state.planned = upvoteFunc(state.planned);
-         state.live = upvoteFunc(state.live);
-         state.in_progress = upvoteFunc(state.in_progress);
+         state[status] = upvoteFunc(state[status]);
       },
       toggleRoadMapMobile: (state, action) => {
          state.filters.roadmapMobile = action.payload;
       },
       addNewFeedback: (state, action) => {
-         const { title, category, detail } = action.payload;
+         const { title, category, description } = action.payload;
          const newFeedback = {
             id: new Date().getTime(),
             title,
@@ -114,12 +110,34 @@ export const productRequestsSlice = createSlice({
             upvotes: 0,
             upvoted: false,
             status: 'suggestion',
-            description: detail,
+            description,
             comments: [],
          };
 
          state.allRequests = [...state.allRequests, newFeedback];
          state.suggestion = [...state.suggestion, newFeedback];
+      },
+
+      editCurrentFeedback: (state, action) => {
+         // const { id, title, status, category, description } = action.payload;
+         // const tempRequests = [...state.allRequests];
+         // let tempFeedback = [...state.allRequests].find(
+         //    (request) => request.id === id
+         // );
+         // let rest = [...state.allRequests].filter(
+         //    (request) => request.id !== id
+         // );
+         // state.allRequests = [...rest, { ...tempFeedback, ...action.payload }];
+         // for (let i = 0; i < statuses.length; i++) {
+         //    state[replaceSpace(statuses[i])] = filterStatus(
+         //       state.allRequests,
+         //       statuses[i]
+         //    );
+         // }
+         // state.allRequests = [
+         //    ...state.allRequests,
+         //    { id: new Date().getTime(), ...tempFeedback },
+         // ];
       },
    },
 });
@@ -132,6 +150,7 @@ export const {
    filterSuggestions,
    toggleRoadMapMobile,
    addNewFeedback,
+   editCurrentFeedback,
 } = productRequestsSlice.actions;
 
 export default productRequestsSlice.reducer;
