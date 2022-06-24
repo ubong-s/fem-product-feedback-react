@@ -1,10 +1,13 @@
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { BackBtn } from '../../components/shared';
 import { categories, statuses } from '../../data/formSelect';
 import { breakpoints, misc, typography } from '../../styles';
+import { useSelector } from 'react-redux';
 
 const EditFeedback = () => {
+   const {} = useSelector((state) => state.editForm);
    const [sortCategory, setSortCategory] = useState(false);
    const [sortStatus, setSortStatus] = useState(false);
    const [category, setCategory] = useState('feature');
@@ -89,18 +92,20 @@ const EditFeedback = () => {
                         }}
                      >
                         <span>{category}</span>
-                        <svg
-                           width='10'
-                           height='7'
-                           xmlns='http://www.w3.org/2000/svg'
-                        >
-                           <path
-                              d='M1 1l4 4 4-4'
-                              strokeWidth='2'
-                              fill='none'
-                              fillRule='evenodd'
-                           />
-                        </svg>
+                        <button className={sortCategory ? 'active' : null}>
+                           <svg
+                              width='10'
+                              height='7'
+                              xmlns='http://www.w3.org/2000/svg'
+                           >
+                              <path
+                                 d='M1 1l4 4 4-4'
+                                 strokeWidth='2'
+                                 fill='none'
+                                 fillRule='evenodd'
+                              />
+                           </svg>
+                        </button>
                      </div>
                      <div
                         className={sortCategory ? 'options active' : 'options'}
@@ -111,17 +116,11 @@ const EditFeedback = () => {
                               <button
                                  key={c.id}
                                  onClick={(e) => {
-                                    // dispatch(
-                                    //    updateFilters({
-                                    //       name: 'sort',
-                                    //       value: c.type,
-                                    //    })
-                                    // );
                                     setCategory(c.type);
                                     closeSort();
                                  }}
                               >
-                                 <span>{c.type}</span>
+                                 <span>{c.text}</span>
                                  {category === c.type && (
                                     <span>
                                        <svg
@@ -155,18 +154,20 @@ const EditFeedback = () => {
                         }}
                      >
                         <span>{status}</span>
-                        <svg
-                           width='10'
-                           height='7'
-                           xmlns='http://www.w3.org/2000/svg'
-                        >
-                           <path
-                              d='M1 1l4 4 4-4'
-                              strokeWidth='2'
-                              fill='none'
-                              fillRule='evenodd'
-                           />
-                        </svg>
+                        <button className={sortStatus ? 'active' : null}>
+                           <svg
+                              width='10'
+                              height='7'
+                              xmlns='http://www.w3.org/2000/svg'
+                           >
+                              <path
+                                 d='M1 1l4 4 4-4'
+                                 strokeWidth='2'
+                                 fill='none'
+                                 fillRule='evenodd'
+                              />
+                           </svg>
+                        </button>
                      </div>
                      <div className={sortStatus ? 'options active' : 'options'}>
                         {statuses.map((s) => (
@@ -212,8 +213,11 @@ const EditFeedback = () => {
                      </label>
                      <textarea type='text' name='detail' />
                   </div>
-                  <button className='btn add-btn'>Add Feedback</button>
-                  <button className='btn cancel-btn'>Cancel</button>
+                  <div className='btn-wrap'>
+                     <button className='btn add-btn'>Save Changes</button>
+                     <button className='btn cancel-btn'>Cancel</button>
+                     <button className='btn delete-btn'>Delete</button>
+                  </div>
                </Form>
             </FormWrap>
          </div>
@@ -323,10 +327,26 @@ const Form = styled.form`
       background: ${(props) => props.theme.grey_light};
       cursor: pointer;
 
-      svg {
-         font-size: 2rem;
-         path {
-            stroke: ${(props) => props.theme.blue};
+      button {
+         margin-left: 0.5rem;
+         cursor: pointer;
+         background-color: transparent;
+         border: none;
+         outline: none;
+
+         svg {
+            font-size: 2rem;
+            transition: all 0.3s ease-in-out;
+
+            path {
+               stroke: ${(props) => props.theme.blue};
+            }
+         }
+
+         &.active {
+            svg {
+               transform: rotate(180deg);
+            }
          }
       }
    }
@@ -345,7 +365,20 @@ const Form = styled.form`
       height: 100px;
    }
 
-   .add-btn {
+   .btn-wrap {
+      display: grid;
+      gap: 1rem;
       margin-top: 1.5rem;
+      width: 100%;
+
+      @media screen and (min-width: ${breakpoints.tablet}) {
+         grid-template-columns: 1fr auto auto;
+         grid-template-areas: 'delete save cancel';
+
+         .delete-btn {
+            justify-self: start;
+            grid-area: delete;
+         }
+      }
    }
 `;

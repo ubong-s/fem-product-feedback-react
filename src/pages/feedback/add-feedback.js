@@ -3,10 +3,34 @@ import styled from 'styled-components';
 import { BackBtn } from '../../components/shared';
 import { categories } from '../../data/formSelect';
 import { breakpoints, misc, typography } from '../../styles';
+import { addNewFeedback } from '../../redux/features/product-requests/productRequestsSlice';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useFormik } from 'formik';
+import { validate } from '../../utils/helpers';
 
 const AddFeedback = () => {
+   const dispatch = useDispatch();
+   const navigate = useNavigate();
+   const formik = useFormik({
+      initialValues: {
+         title: '',
+         detail: '',
+      },
+      validate,
+      onSubmit: (values) => {
+         dispatch(
+            addNewFeedback({
+               ...values,
+               category,
+            })
+         );
+         navigate(-1);
+      },
+   });
+
    const [sortActive, setSortActive] = useState(false);
-   const [sort, setSort] = useState('Feature');
+   const [category, setCategory] = useState('feature');
 
    const toggleSort = () => {
       setSortActive(!sortActive);
@@ -16,16 +40,17 @@ const AddFeedback = () => {
       setSortActive(false);
    };
 
+   const cancelFeedbackSubmit = () => {
+      navigate(-1);
+      setCategory('feature');
+   };
+
    return (
       <AddFeedbackWrap>
          <div className='container'>
             <BackBtn />
 
-            <FormWrap
-               onClick={(e) => {
-                  e.preventDefault();
-               }}
-            >
+            <FormWrap>
                <div className='icon'>
                   <svg
                      width='56'
@@ -59,13 +84,21 @@ const AddFeedback = () => {
 
                <h1>Create New Feedback</h1>
 
-               <Form>
+               <Form onSubmit={formik.handleSubmit}>
                   <div className='form-group'>
                      <label htmlFor='title' className='form-label'>
                         <span> Feedback Title</span>Add a short, descriptive
                         headline
                      </label>
-                     <input type='text' name='title' />
+                     <input
+                        type='text'
+                        name='title'
+                        onChange={formik.handleChange}
+                        value={formik.values.title}
+                     />
+                     {formik.errors.title ? (
+                        <span className='error-msg'>{formik.errors.title}</span>
+                     ) : null}
                   </div>
                   <div className='form-group'>
                      <p className='form-label'>
@@ -79,39 +112,36 @@ const AddFeedback = () => {
                            toggleSort();
                         }}
                      >
-                        <span>{sort}</span>
-                        <svg
-                           width='10'
-                           height='7'
-                           xmlns='http://www.w3.org/2000/svg'
-                        >
-                           <path
-                              d='M1 1l4 4 4-4'
-                              strokeWidth='2'
-                              fill='none'
-                              fillRule='evenodd'
-                           />
-                        </svg>
+                        <span>{category}</span>
+                        <button className={sortActive ? 'active' : null}>
+                           <svg
+                              width='10'
+                              height='7'
+                              xmlns='http://www.w3.org/2000/svg'
+                           >
+                              <path
+                                 d='M1 1l4 4 4-4'
+                                 strokeWidth='2'
+                                 fill='none'
+                                 fillRule='evenodd'
+                              />
+                           </svg>
+                        </button>
                      </div>
                      <div className={sortActive ? 'options active' : 'options'}>
                         {categories
-                           .filter((cat) => cat.type !== 'All')
+                           .filter((cat) => cat.type !== 'all')
                            .map((c) => (
                               <button
+                                 type='button'
                                  key={c.id}
-                                 onClick={(e) => {
-                                    // dispatch(
-                                    //    updateFilters({
-                                    //       name: 'sort',
-                                    //       value: c.type,
-                                    //    })
-                                    // );
-                                    setSort(c.type);
+                                 onClick={() => {
+                                    setCategory(c.type);
                                     closeSort();
                                  }}
                               >
-                                 <span>{c.type}</span>
-                                 {sort === c.type && (
+                                 <span>{c.text}</span>
+                                 {category === c.type && (
                                     <span>
                                        <svg
                                           xmlns='http://www.w3.org/2000/svg'
@@ -137,10 +167,30 @@ const AddFeedback = () => {
                         Include any specific comments on what should be
                         improved, added, etc.
                      </label>
-                     <textarea type='text' name='detail' />
+                     <textarea
+                        type='text'
+                        name='detail'
+                        onChange={formik.handleChange}
+                        value={formik.values.detail}
+                     />
+                     {formik.errors.detail ? (
+                        <span className='error-msg'>
+                           {formik.errors.detail}
+                        </span>
+                     ) : null}
                   </div>
-                  <button className='btn add-btn'>Add Feedback</button>
-                  <button className='btn cancel-btn'>Cancel</button>
+                  <div className='btn-wrap'>
+                     <button type='submit' className='btn add-btn'>
+                        Add Feedback
+                     </button>
+                     <button
+                        type='button'
+                        className='btn cancel-btn'
+                        onClick={cancelFeedbackSubmit}
+                     >
+                        Cancel
+                     </button>
+                  </div>
                </Form>
             </FormWrap>
          </div>
@@ -183,7 +233,7 @@ const FormWrap = styled.div`
 const Form = styled.form`
    padding-top: 2rem;
    display: grid;
-   gap: 1rem;
+   gap: 0.5rem;
 
    .form-group {
       position: relative;
@@ -224,6 +274,11 @@ const Form = styled.form`
             z-index: 20;
          }
       }
+
+      .error-msg {
+         transition: all 0.3s ease-in-out;
+         color: red;
+      }
    }
 
    label,
@@ -250,10 +305,26 @@ const Form = styled.form`
       background: ${(props) => props.theme.grey_light};
       cursor: pointer;
 
-      svg {
-         font-size: 2rem;
-         path {
-            stroke: ${(props) => props.theme.blue};
+      button {
+         margin-left: 0.5rem;
+         cursor: pointer;
+         background-color: transparent;
+         border: none;
+         outline: none;
+
+         svg {
+            font-size: 2rem;
+            transition: all 0.3s ease-in-out;
+
+            path {
+               stroke: ${(props) => props.theme.blue};
+            }
+         }
+
+         &.active {
+            svg {
+               transform: rotate(180deg);
+            }
          }
       }
    }
@@ -272,7 +343,15 @@ const Form = styled.form`
       height: 100px;
    }
 
-   .add-btn {
+   .btn-wrap {
+      display: grid;
+      gap: 1rem;
       margin-top: 1.5rem;
+      width: 100%;
+
+      @media screen and (min-width: ${breakpoints.tablet}) {
+         display: flex;
+         justify-content: flex-end;
+      }
    }
 `;

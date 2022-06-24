@@ -12,3 +12,16 @@ export function ascendDescend(array, attr, direction = 'descending') {
    if (direction === 'descending')
       return array.sort((a, b) => (b[attr] > a[attr] ? 1 : -1));
 }
+
+export const validate = (values) => {
+   const errors = {};
+   if (!values.title) {
+      errors.title = `Can't be empty`;
+   }
+
+   if (!values.detail) {
+      errors.detail = `Can't be empty`;
+   }
+
+   return errors;
+};

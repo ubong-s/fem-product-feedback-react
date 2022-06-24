@@ -4,14 +4,16 @@ const initialState = {
    title: '',
    category: 'feature',
    status: 'suggestion',
-   detail: '',
+   description: '',
 };
 
 export const formsSlice = createSlice({
    name: 'forms',
    initialState,
    reducers: {
-      updateEditForm: (state) => {},
+      updateEditForm: (state, action) => {
+         state = { ...action.payload };
+      },
    },
 });
 

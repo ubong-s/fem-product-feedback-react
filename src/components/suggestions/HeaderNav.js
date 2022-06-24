@@ -29,7 +29,7 @@ const HeaderNav = ({ menuOpen }) => {
                         )
                      }
                   >
-                     {c.type}
+                     {c.text}
                   </button>
                ))}
             </div>

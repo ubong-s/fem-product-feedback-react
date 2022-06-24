@@ -6,12 +6,12 @@ export const sortBtns = [
 ];
 
 export const categories = [
-   { id: 1, type: 'all' },
-   { id: 2, type: 'ui' },
-   { id: 3, type: 'ux' },
-   { id: 4, type: 'enhancement' },
-   { id: 5, type: 'feature' },
-   { id: 6, type: 'bug' },
+   { id: 1, type: 'all', text: 'All' },
+   { id: 2, type: 'ui', text: 'UI' },
+   { id: 3, type: 'ux', text: 'UX' },
+   { id: 4, type: 'enhancement', text: 'Enhancement' },
+   { id: 5, type: 'feature', text: 'Feature' },
+   { id: 6, type: 'bug', text: 'Bug' },
 ];
 
 export const statuses = [

@@ -91,13 +91,14 @@ const bodyStyles = css`
 
    .add-btn,
    .edit-btn,
-   .cancel-btn {
+   .cancel-btn,
+   .delete-btn {
       color: ${(props) => props.theme.white};
       padding: 0.75rem 1.5rem;
       transition: all 0.3s ease-in-out;
 
       &:hover {
-         opacity: 0.8;
+         opacity: 0.6;
       }
    }
 
@@ -111,6 +112,10 @@ const bodyStyles = css`
 
    .cancel-btn {
       background-color: ${(props) => props.theme.dark_blue};
+   }
+
+   .delete-btn {
+      background-color: ${(props) => props.theme.red};
    }
 
    .no-style-btn {

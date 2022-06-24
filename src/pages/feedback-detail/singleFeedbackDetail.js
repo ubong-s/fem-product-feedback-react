@@ -20,13 +20,11 @@ const SingleFeedbackDetail = () => {
 
    const feedback = allRequests.find((request) => request.id === Number(id));
 
-   const { comments } = feedback;
-
    return (
       <SingleFeedbackDetailWrap className='container'>
-         <FeedbackDetailNav />
+         <FeedbackDetailNav {...feedback} />
          <FeedbackHeader {...feedback} />
-         <FeedbackComments comments={comments} />
+         <FeedbackComments comments={feedback.comments} />
          <AddComment />
       </SingleFeedbackDetailWrap>
    );

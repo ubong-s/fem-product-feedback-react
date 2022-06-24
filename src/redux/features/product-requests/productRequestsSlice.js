@@ -105,6 +105,22 @@ export const productRequestsSlice = createSlice({
       toggleRoadMapMobile: (state, action) => {
          state.filters.roadmapMobile = action.payload;
       },
+      addNewFeedback: (state, action) => {
+         const { title, category, detail } = action.payload;
+         const newFeedback = {
+            id: new Date().getTime(),
+            title,
+            category,
+            upvotes: 0,
+            upvoted: false,
+            status: 'suggestion',
+            description: detail,
+            comments: [],
+         };
+
+         state.allRequests = [...state.allRequests, newFeedback];
+         state.suggestion = [...state.suggestion, newFeedback];
+      },
    },
 });
 
@@ -115,6 +131,7 @@ export const {
    updateFilters,
    filterSuggestions,
    toggleRoadMapMobile,
+   addNewFeedback,
 } = productRequestsSlice.actions;
 
 export default productRequestsSlice.reducer;
