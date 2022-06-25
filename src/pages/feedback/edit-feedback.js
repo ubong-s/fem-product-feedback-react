@@ -23,8 +23,6 @@ const EditFeedback = () => {
       (request) => Number(request.id) === Number(id)
    );
 
-   // const [title, setTitle] = useState(currentFeedback.title);
-   // const [description, setDescription] = useState(currentFeedback.description);
    const [category, setCategory] = useState(currentFeedback.category);
    const [status, setStatus] = useState(currentFeedback.status);
 
@@ -63,7 +61,7 @@ const EditFeedback = () => {
    };
 
    const deleteFeedback = () => {
-      dispatch(deleteCurrentFeedback(id));
+      dispatch(deleteCurrentFeedback({ id, status }));
       navigate('/');
    };
    const cancelFeedbackChange = () => {

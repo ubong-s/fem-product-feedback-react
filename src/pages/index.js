@@ -8,11 +8,13 @@ import { filterSuggestions } from '../redux/features/product-requests/productReq
 
 export default function Home() {
    const dispatch = useDispatch();
-   const { filters } = useSelector((state) => state.productRequests);
+   const {
+      filters: { sort, category },
+   } = useSelector((state) => state.productRequests);
 
    useEffect(() => {
       dispatch(filterSuggestions());
-   }, [filters]);
+   }, [sort, category]);
 
    return (
       <>

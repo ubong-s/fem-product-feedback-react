@@ -1,8 +1,31 @@
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { breakpoints, typography } from '../../styles';
 
 const Comment = ({ comment }) => {
+   const [replyForm, setReplyForm] = useState(null);
+
    const { id, user, content, replies } = comment;
+
+   const openReply = (e) => {
+      const id = e.target.dataset.btn;
+      if (replyForm === id) {
+         setReplyForm(null);
+      } else {
+         setReplyForm(id);
+      }
+   };
+
+   useEffect(() => {
+      const replyForms = document.querySelectorAll('.reply-form');
+
+      if (replyForm) {
+         replyForms.forEach((form) => {
+            form.classList.remove('active');
+         });
+      }
+   }, [replyForm]);
+
    return (
       <CommentWrap>
          <div className='tablet-block'>
@@ -16,17 +39,36 @@ const Comment = ({ comment }) => {
                   <h4>{user.name}</h4>
                   <p>@{user.username}</p>
                </div>
-               <button className='no-style-btn'>Reply</button>
+               <button
+                  data-btn={`comment-${id}`}
+                  className='no-style-btn'
+                  onClick={openReply}
+               >
+                  Reply
+               </button>
             </div>
             <p className='comment'>{content}</p>
 
+            <InnerForm
+               className={
+                  replyForm === `comment-${id}`
+                     ? 'comment-form active'
+                     : 'comment-form'
+               }
+            >
+               <textarea type='text' rows='2' />
+               <button type='submit' className='btn add-btn'>
+                  Post Reply
+               </button>
+            </InnerForm>
+
             {replies && (
                <InnerCommentsWrap>
-                  {replies.map((reply) => {
-                     const { id, user, content, replyingTo } = reply;
+                  {replies.map((reply, index) => {
+                     const { user, content, replyingTo } = reply;
 
                      return (
-                        <InnerComment key={id}>
+                        <InnerComment key={index}>
                            <div>
                               <img
                                  src={user.image}
@@ -46,11 +88,31 @@ const Comment = ({ comment }) => {
                                     <h4>{user.name}</h4>
                                     <p>@{user.username}</p>
                                  </div>
-                                 <button className='no-style-btn'>Reply</button>
+                                 <button
+                                    data-btn={`innner-comment-${index}`}
+                                    className='no-style-btn'
+                                    type='button'
+                                    onClick={openReply}
+                                 >
+                                    Reply
+                                 </button>
                               </div>
                               <p className='inner-comment'>
                                  <span>@{replyingTo}</span> {content}
                               </p>
+
+                              <InnerForm
+                                 className={
+                                    replyForm === `innner-comment-${index}`
+                                       ? 'comment-form active'
+                                       : 'comment-form'
+                                 }
+                              >
+                                 <textarea type='text' rows='2' />
+                                 <button type='submit' className='btn add-btn'>
+                                    Post Reply
+                                 </button>
+                              </InnerForm>
                            </div>
                         </InnerComment>
                      );
@@ -203,5 +265,27 @@ const InnerComment = styled.article`
          grid-template-columns: 1fr auto;
          margin-bottom: 1rem;
       }
+   }
+`;
+
+const InnerForm = styled.form`
+   margin: 0;
+   position: relative;
+   display: grid;
+   grid-template-columns: 1fr auto;
+   gap: 1rem;
+   align-items: flex-start;
+   z-index: -2;
+   opacity: 0;
+   height: 0;
+   transform: translateY(-100%);
+   transition: all 0.5s ease-out;
+
+   &.active {
+      margin: 1.5rem 0 1rem;
+      transform: translateY(0);
+      height: 65px;
+      z-index: 2;
+      opacity: 1;
    }
 `;

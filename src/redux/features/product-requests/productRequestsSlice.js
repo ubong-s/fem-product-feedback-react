@@ -121,15 +121,57 @@ export const productRequestsSlice = createSlice({
       editCurrentFeedback: (state, action) => {
          const { id, title, status, category, description } = action.payload;
 
-         let tempRequests = [...state.allRequests].map((request) => {
-            if (Number(request.id) === Number(id)) {
+         const tempRequests = (requests) =>
+            [...requests].map((request) => {
+               if (Number(request.id) === Number(id)) {
+                  return {
+                     ...request,
+                     id: Number(id),
+                     title,
+                     status,
+                     category,
+                     description,
+                  };
+               }
+
+               return request;
+            });
+
+         state.allRequests = tempRequests(state.allRequests);
+         for (let i = 0; i < statuses.length; i++) {
+            state[replaceSpace(statuses[i])] = filterStatus(
+               state.allRequests,
+               statuses[i]
+            );
+         }
+      },
+
+      deleteCurrentFeedback: (state, action) => {
+         const { id, status } = action.payload;
+         let tempRequests = (requests) =>
+            [...requests].filter((request) => request.id !== Number(id));
+
+         state.allRequests = tempRequests(state.allRequests);
+         state[replaceSpace(status)] = tempRequests(
+            state[replaceSpace(status)]
+         );
+      },
+
+      addNewComment: (state, action) => {
+         console.log(action);
+         const { user, feedbackId, commentId: id, content } = action.payload;
+         const tempRequests = [...state.allRequests].map((request) => {
+            if (Number(request.id) === Number(feedbackId)) {
                return {
                   ...request,
-                  id: Number(id),
-                  title,
-                  status,
-                  category,
-                  description,
+                  comments: [
+                     ...request.comments,
+                     {
+                        id,
+                        content,
+                        user,
+                     },
+                  ],
                };
             }
 
@@ -139,19 +181,7 @@ export const productRequestsSlice = createSlice({
          state.allRequests = tempRequests;
       },
 
-      deleteCurrentFeedback: (state, action) => {
-         const id = action.payload;
-         let tempRequests = [...state.allRequests].filter(
-            (request) => request.id !== Number(id)
-         );
-
-         state.allRequests = tempRequests;
-         state.filters.category = 'all';
-      },
-
-      addNewComment: (state, action) => {
-         console.log(action);
-      },
+      replyComment: (state, action) => {},
    },
 });
 
@@ -166,6 +196,7 @@ export const {
    editCurrentFeedback,
    deleteCurrentFeedback,
    addNewComment,
+   replyComment,
 } = productRequestsSlice.actions;
 
 export default productRequestsSlice.reducer;

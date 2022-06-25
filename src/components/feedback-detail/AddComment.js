@@ -1,20 +1,27 @@
 import { useFormik } from 'formik';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { addNewComment } from '../../redux/features/product-requests/productRequestsSlice';
 import { misc } from '../../styles';
 
 const AddComment = ({ feedbackId }) => {
+   const { currentUser: user } = useSelector((state) => state.user);
    const dispatch = useDispatch();
    let charctersAllowed = 255;
 
    const formik = useFormik({
       initialValues: {
-         message: '',
+         content: '',
       },
       onSubmit: (values, { resetForm }) => {
-         console.log(values);
-         dispatch(addNewComment({ feedbackId, ...values }));
+         dispatch(
+            addNewComment({
+               feedbackId,
+               user,
+               commentId: new Date().getTime(),
+               ...values,
+            })
+         );
          resetForm({ values: '' });
       },
    });
@@ -24,28 +31,27 @@ const AddComment = ({ feedbackId }) => {
          <h2>Add Comment</h2>
          <Form onSubmit={formik.handleSubmit}>
             <textarea
-               aria-label='message'
-               name='message'
-               id='message'
+               aria-label='content'
+               name='content'
                placeholder='Type your comment here'
-               value={formik.values.message}
+               value={formik.values.content}
                maxLength={charctersAllowed}
                onChange={formik.handleChange}
             />
             <div className='form-footer'>
                <p
                   className={
-                     formik.values.message.length === charctersAllowed
+                     formik.values.content.length === charctersAllowed
                         ? 'limit'
                         : null
                   }
                >
-                  {charctersAllowed - formik.values.message.length} characters
+                  {charctersAllowed - formik.values.content.length} characters
                   left
                </p>
                <button
                   type='submit'
-                  disabled={!formik.values.message}
+                  disabled={!formik.values.content}
                   className='btn add-btn'
                >
                   Post Comment

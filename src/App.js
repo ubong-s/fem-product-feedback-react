@@ -2,6 +2,7 @@ import { useEffect, Suspense, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { fetchStatuses } from './redux/features/product-requests/productRequestsSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { Loading } from './components/shared';
 
 const Home = lazy(() => import('./pages'));
 const Roadmap = lazy(() => import('./pages/roadmap'));
@@ -18,10 +19,10 @@ function App() {
 
    useEffect(() => {
       dispatch(fetchStatuses());
-   }, [allRequests]);
+   }, []);
    return (
       <>
-         <Suspense fallback={'Loading...'}>
+         <Suspense fallback={<Loading />}>
             <Routes>
                <Route exact path='/' element={<Home />} />
                <Route exact path='/roadmap' element={<Roadmap />} />
