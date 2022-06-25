@@ -1,28 +1,53 @@
-import { useState } from 'react';
+import { useFormik } from 'formik';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import { addNewComment } from '../../redux/features/product-requests/productRequestsSlice';
 import { misc } from '../../styles';
 
-const AddComment = () => {
-   const [message, setMessage] = useState('');
-   const [messageCount, setMessageCount] = useState(255);
+const AddComment = ({ feedbackId }) => {
+   const dispatch = useDispatch();
+   let charctersAllowed = 255;
+
+   const formik = useFormik({
+      initialValues: {
+         message: '',
+      },
+      onSubmit: (values, { resetForm }) => {
+         console.log(values);
+         dispatch(addNewComment({ feedbackId, ...values }));
+         resetForm({ values: '' });
+      },
+   });
+
    return (
       <AddCommentWrap>
          <h2>Add Comment</h2>
-         <Form>
+         <Form onSubmit={formik.handleSubmit}>
             <textarea
-               name=''
-               id=''
+               aria-label='message'
+               name='message'
+               id='message'
                placeholder='Type your comment here'
-               value={message}
-               maxLength={255}
-               onChange={(e) => {
-                  setMessage(e.target.value);
-                  setMessageCount((prev) => prev - 1);
-               }}
-            ></textarea>
+               value={formik.values.message}
+               maxLength={charctersAllowed}
+               onChange={formik.handleChange}
+            />
             <div className='form-footer'>
-               <p>{messageCount} characters left</p>
-               <button type='submit' className='btn add-btn'>
+               <p
+                  className={
+                     formik.values.message.length === charctersAllowed
+                        ? 'limit'
+                        : null
+                  }
+               >
+                  {charctersAllowed - formik.values.message.length} characters
+                  left
+               </p>
+               <button
+                  type='submit'
+                  disabled={!formik.values.message}
+                  className='btn add-btn'
+               >
                   Post Comment
                </button>
             </div>
@@ -46,7 +71,6 @@ const AddCommentWrap = styled.div`
 
 const Form = styled.form`
    display: grid;
-   gap: 2rem;
 
    textarea {
       width: 100%;
@@ -65,13 +89,30 @@ const Form = styled.form`
       }
    }
 
+   .error-msg {
+      color: ${(props) => props.theme.red};
+      font-style: italic;
+   }
+
    .form-footer {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin-top: 2rem;
+
+      button {
+         &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+         }
+      }
 
       p {
          margin-bottom: 0;
+
+         &.limit {
+            color: red;
+         }
       }
    }
 `;

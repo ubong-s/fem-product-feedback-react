@@ -28,7 +28,7 @@ const SingleFeedbackDetail = () => {
             <FeedbackDetailNav {...feedback} />
             <FeedbackHeader {...feedback} />
             <FeedbackComments comments={feedback.comments} />
-            <AddComment />
+            <AddComment feedbackId={feedback.id} />
          </SingleFeedbackDetailWrap>
       </>
    );

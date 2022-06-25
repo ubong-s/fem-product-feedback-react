@@ -7,8 +7,8 @@ export const sortBtns = [
 
 export const categories = [
    { id: 1, type: 'all', text: 'All' },
-   { id: 2, type: 'ui', text: 'UI' },
-   { id: 3, type: 'ux', text: 'UX' },
+   { id: 2, type: 'UI', text: 'UI' },
+   { id: 3, type: 'UX', text: 'UX' },
    { id: 4, type: 'enhancement', text: 'Enhancement' },
    { id: 5, type: 'feature', text: 'Feature' },
    { id: 6, type: 'bug', text: 'Bug' },

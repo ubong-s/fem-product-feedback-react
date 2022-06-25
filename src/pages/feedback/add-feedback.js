@@ -25,7 +25,7 @@ const AddFeedback = () => {
                category,
             })
          );
-         navigate('/');
+         navigate(-1);
       },
    });
 

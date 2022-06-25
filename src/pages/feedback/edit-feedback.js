@@ -6,7 +6,10 @@ import { categories, statuses } from '../../data/formSelect';
 import { breakpoints, misc, typography } from '../../styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
-import { editCurrentFeedback } from '../../redux/features/product-requests/productRequestsSlice';
+import {
+   deleteCurrentFeedback,
+   editCurrentFeedback,
+} from '../../redux/features/product-requests/productRequestsSlice';
 import { validate } from '../../utils/helpers';
 
 const EditFeedback = () => {
@@ -32,7 +35,6 @@ const EditFeedback = () => {
       },
       validate,
       onSubmit: (values) => {
-         console.log(values);
          dispatch(
             editCurrentFeedback({
                ...values,
@@ -61,7 +63,8 @@ const EditFeedback = () => {
    };
 
    const deleteFeedback = () => {
-      navigate(-1);
+      dispatch(deleteCurrentFeedback(id));
+      navigate('/');
    };
    const cancelFeedbackChange = () => {
       navigate(-1);
