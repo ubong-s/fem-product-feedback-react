@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 // styles
 import styled from 'styled-components';
 import { updateFilters } from '../../redux/features/product-requests/productRequestsSlice';
-import { breakpoints, misc, typography } from '../../styles';
+import { breakpoints, misc } from '../../styles';
 
 // components
 import SuggestionCard from './SuggestionCard';

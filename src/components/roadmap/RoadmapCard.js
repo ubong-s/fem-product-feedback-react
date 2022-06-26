@@ -5,8 +5,8 @@ import { useDispatch } from 'react-redux';
 import { upvoteRequest } from '../../redux/features/product-requests/productRequestsSlice';
 
 // styles
-import styled, { css } from 'styled-components';
-import { breakpoints, misc, typography } from '../../styles';
+import styled from 'styled-components';
+import { breakpoints, misc } from '../../styles';
 
 const RoadmapCard = ({
    id,

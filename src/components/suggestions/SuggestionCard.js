@@ -6,7 +6,7 @@ import { upvoteRequest } from '../../redux/features/product-requests/productRequ
 
 // styles
 import styled from 'styled-components';
-import { breakpoints, misc, typography } from '../../styles';
+import { breakpoints, misc } from '../../styles';
 
 const SuggestionCard = ({
    id,

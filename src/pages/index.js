@@ -14,6 +14,7 @@ export default function Home() {
 
    useEffect(() => {
       dispatch(filterSuggestions());
+      // eslint-disable-next-line
    }, [sort, category]);
 
    return (
