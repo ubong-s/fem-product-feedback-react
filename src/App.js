@@ -26,6 +26,7 @@ function App() {
 
    useEffect(() => {
       dispatch(fetchStatuses());
+      // eslint-disable-next-line
    }, []);
    return (
       <>

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { breakpoints, misc } from '../../styles';
+import { misc } from '../../styles';
 import Comment from './Comment';
 
 const FeedbackComments = ({ comments, status }) => {
