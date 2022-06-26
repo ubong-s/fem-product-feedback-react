@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { BackBtn, Seo } from '../../components/shared';
@@ -23,13 +23,13 @@ const EditFeedback = () => {
       (request) => Number(request.id) === Number(id)
    );
 
-   const [category, setCategory] = useState(currentFeedback.category);
-   const [status, setStatus] = useState(currentFeedback.status);
+   const [category, setCategory] = useState(currentFeedback?.category || null);
+   const [status, setStatus] = useState(currentFeedback?.status || null);
 
    const formik = useFormik({
       initialValues: {
-         title: currentFeedback.title,
-         description: currentFeedback.description,
+         title: currentFeedback?.title,
+         description: currentFeedback?.description,
       },
       validate,
       onSubmit: (values) => {
@@ -67,6 +67,13 @@ const EditFeedback = () => {
    const cancelFeedbackChange = () => {
       navigate(-1);
    };
+
+   useEffect(() => {
+      if (!currentFeedback) {
+         navigate('/');
+      }
+      // eslint-disable-next-line
+   }, []);
 
    return (
       <>

@@ -1,70 +1,86 @@
-# Getting Started with Create React App
+# Frontend Mentor - Product feedback app solution
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a solution to the [Product feedback app challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/product-feedback-app-wbvUYqjR6). Frontend Mentor challenges help you improve your coding skills by building realistic projects.
 
-## Available Scripts
+## Table of contents
 
-In the project directory, you can run:
+-  [Overview](#overview)
+   -  [The challenge](#the-challenge)
+   -  [Expected behaviour](#expected-behaviour)
+   -  [Screenshot](#screenshot)
+   -  [Links](#links)
+-  [My process](#my-process)
+   -  [Built with](#built-with)
+-  [Author](#author)
 
-### `npm start`
+## Overview
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### The challenge
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Users should be able to:
 
-### `npm test`
+-  [x] View the optimal layout for the app depending on their device's screen size
+-  [x] See hover states for all interactive elements on the page
+-  [x] Create, read, update, and delete product feedback requests
+-  [x] Receive form validations when trying to create/edit feedback requests
+-  [x] Sort suggestions by most/least upvotes and most/least comments
+-  [x] Filter suggestions by category
+-  [x] Add comments and replies to a product feedback request
+-  [x] Upvote product feedback requests
+-  [x] Keep track of any changes, even after refreshing the browser (`localStorage` could be used for this if you're not building out a full-stack app)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Expected Behaviour
 
-### `npm run build`
+-  [x] Suggestions page
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+   -  [x] Only product feedback requests with a status of `suggestion` should be shown on the Suggestions page.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+-  [x] Roadmap
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+   -  [x] Feedback requests with a status of `planned`, `in-progress`, or `live` should show up on the roadmap, and should be placed in the correct column based on their status.
+   -  [x] Columns should be ordered by upvote totals.
 
-### `npm run eject`
+-  [x] Creating a product request
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+   -  [x] When creating a new piece of feedback, an ID needs to be assigned which increments the current highest product request ID by 1.
+   -  [x] The default status for a new piece of feedback is `suggestion`. This places it on the Suggestions page.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+-  [x] Editing feedback
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+   -  [x] If a piece of feedback has its status updated to `planned`/`in-progress`/`live` it moves through to the roadmap and should show up in the correct column based on its new status.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+-  [x] Add comments/replies
+   -  [x] Use the data from the `currentUser` object in the `data.json` file to populate the user data for any new comments or replies.
+   -  [x] Any comment/reply can have a maximum of 250 characters.
 
-## Learn More
+### Screenshot
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+![](./screenshots/desktop-suggestions.png)
+![](./screenshots/desktop-roadmap.png)
+![](./screenshots/desktop-feedback-detail.png)
+![](./screenshots/desktop-edit-feedback.png)
+![](./screenshots/desktop-add-feedback.png)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+-  [All Screenshots](./screenshots/)
 
-### Code Splitting
+### Links
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+-  Live Site URL: (https://devubong-product-feedback.netlify.app/)
 
-### Analyzing the Bundle Size
+## My process
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Built with
 
-### Making a Progressive Web App
+-  Semantic HTML5 markup
+-  styled-components
+-  Mobile first design
+-  React
+-  Redux/Redux Toolkit
+-  React Router
+-  React Helmet
+-  Formik
+-  Accessibility in mind
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Author
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+-  Website - [Ubong Sylvester](https://www.devubong.com)

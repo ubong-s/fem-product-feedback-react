@@ -7,7 +7,7 @@ import { misc } from '../../styles';
 const AddComment = ({ feedbackId }) => {
    const { currentUser: user } = useSelector((state) => state.user);
    const dispatch = useDispatch();
-   let charctersAllowed = 255;
+   let charctersAllowed = 250;
 
    const formik = useFormik({
       initialValues: {

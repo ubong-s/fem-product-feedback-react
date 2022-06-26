@@ -63,6 +63,7 @@ const Comment = ({ comment, status }) => {
                <textarea
                   type='text'
                   rows='2'
+                  maxLength={250}
                   value={replyValue}
                   onChange={(e) => setReplyValue(e.target.value)}
                />
@@ -143,6 +144,7 @@ const Comment = ({ comment, status }) => {
                                     name='inner-comment'
                                     type='text'
                                     rows='2'
+                                    maxLength={250}
                                     value={innerReplyValue}
                                     onChange={(e) =>
                                        setInnerReplyValue(e.target.value)
