@@ -191,7 +191,55 @@ export const productRequestsSlice = createSlice({
          state.allRequests = tempRequests;
       },
 
-      replyComment: (state, action) => {},
+      replyComment: (state, action) => {
+         const {
+            currentUser,
+            feedbackId,
+            status,
+            commentId,
+            reply,
+            replyingTo,
+         } = action.payload;
+
+         const newReply = {
+            content: reply,
+            replyingTo,
+            user: currentUser,
+         };
+
+         const tempRequests = (requests) =>
+            [...requests].map((request) => {
+               if (feedbackId === request.id) {
+                  return {
+                     ...request,
+                     comments: [...request.comments].map((comment) => {
+                        if (commentId === comment.id) {
+                           if (comment.replies) {
+                              return {
+                                 ...comment,
+                                 replies: [...comment.replies, newReply],
+                              };
+                           }
+
+                           return {
+                              ...comment,
+                              replies: [newReply],
+                           };
+                        }
+
+                        return comment;
+                     }),
+                  };
+               }
+
+               return request;
+            });
+
+         state.allRequests = tempRequests(state.allRequests);
+         state[replaceSpace(status)] = tempRequests(
+            state[replaceSpace(status)]
+         );
+      },
    },
 });
 

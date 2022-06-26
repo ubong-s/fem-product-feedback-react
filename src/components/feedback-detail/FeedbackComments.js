@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { breakpoints, misc } from '../../styles';
 import Comment from './Comment';
 
-const FeedbackComments = ({ comments }) => {
+const FeedbackComments = ({ comments, status }) => {
    return (
       <FeedbackCommentsWrap>
          <h2>
@@ -14,7 +14,7 @@ const FeedbackComments = ({ comments }) => {
                : `${comments.length} comments`}
          </h2>
          {comments.map((comment) => (
-            <Comment key={comment.id} comment={comment} />
+            <Comment key={comment.id} comment={comment} status={status} />
          ))}
       </FeedbackCommentsWrap>
    );

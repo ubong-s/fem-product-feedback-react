@@ -1,30 +1,33 @@
 import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { replyComment } from '../../redux/features/product-requests/productRequestsSlice';
 import { breakpoints, typography } from '../../styles';
 
-const Comment = ({ comment }) => {
-   const [replyForm, setReplyForm] = useState(null);
+const Comment = ({ comment, status }) => {
+   const { id: feedbackId } = useParams();
+   const { currentUser } = useSelector((state) => state.user);
 
-   const { id, user, content, replies } = comment;
+   const dispatch = useDispatch();
+   const [activeForm, setActiveForm] = useState(null);
+   const [replyValue, setReplyValue] = useState('');
+   const [innerReplyValue, setInnerReplyValue] = useState('');
+   const { id: commentId, user, content, replies } = comment;
 
-   const openReply = (e) => {
+   const openReplyForm = (e) => {
       const id = e.target.dataset.btn;
-      if (replyForm === id) {
-         setReplyForm(null);
+      if (activeForm === id) {
+         setActiveForm(null);
       } else {
-         setReplyForm(id);
+         setActiveForm(id);
+         setInnerReplyValue('');
       }
    };
 
-   useEffect(() => {
-      const replyForms = document.querySelectorAll('.reply-form');
-
-      if (replyForm) {
-         replyForms.forEach((form) => {
-            form.classList.remove('active');
-         });
-      }
-   }, [replyForm]);
+   const closeReplyForm = () => {
+      setActiveForm(null);
+   };
 
    return (
       <CommentWrap>
@@ -40,9 +43,9 @@ const Comment = ({ comment }) => {
                   <p>@{user.username}</p>
                </div>
                <button
-                  data-btn={`comment-${id}`}
+                  data-btn={`comment-${commentId}`}
                   className='no-style-btn'
-                  onClick={openReply}
+                  onClick={openReplyForm}
                >
                   Reply
                </button>
@@ -51,13 +54,37 @@ const Comment = ({ comment }) => {
 
             <InnerForm
                className={
-                  replyForm === `comment-${id}`
+                  activeForm === `comment-${commentId}`
                      ? 'comment-form active'
                      : 'comment-form'
                }
+               onSubmit={(e) => e.preventDefault()}
             >
-               <textarea type='text' rows='2' />
-               <button type='submit' className='btn add-btn'>
+               <textarea
+                  type='text'
+                  rows='2'
+                  value={replyValue}
+                  onChange={(e) => setReplyValue(e.target.value)}
+               />
+               <button
+                  disabled={!replyValue}
+                  className='btn add-btn'
+                  type='button'
+                  onClick={() => {
+                     dispatch(
+                        replyComment({
+                           feedbackId: Number(feedbackId),
+                           status,
+                           commentId,
+                           currentUser,
+                           reply: replyValue,
+                           replyingTo: user.username,
+                        })
+                     );
+                     closeReplyForm();
+                     setReplyValue('');
+                  }}
+               >
                   Post Reply
                </button>
             </InnerForm>
@@ -92,24 +119,54 @@ const Comment = ({ comment }) => {
                                     data-btn={`innner-comment-${index}`}
                                     className='no-style-btn'
                                     type='button'
-                                    onClick={openReply}
+                                    onClick={openReplyForm}
                                  >
                                     Reply
                                  </button>
                               </div>
                               <p className='inner-comment'>
-                                 <span>@{replyingTo}</span> {content}
+                                 {replyingTo !== user.username ? (
+                                    <span>@{replyingTo}</span>
+                                 ) : null}{' '}
+                                 {content}
                               </p>
 
                               <InnerForm
                                  className={
-                                    replyForm === `innner-comment-${index}`
+                                    activeForm === `innner-comment-${index}`
                                        ? 'comment-form active'
                                        : 'comment-form'
                                  }
+                                 onSubmit={(e) => e.preventDefault()}
                               >
-                                 <textarea type='text' rows='2' />
-                                 <button type='submit' className='btn add-btn'>
+                                 <textarea
+                                    name='inner-comment'
+                                    type='text'
+                                    rows='2'
+                                    value={innerReplyValue}
+                                    onChange={(e) =>
+                                       setInnerReplyValue(e.target.value)
+                                    }
+                                 />
+                                 <button
+                                    disabled={!innerReplyValue}
+                                    className='btn add-btn'
+                                    type='button'
+                                    onClick={() => {
+                                       dispatch(
+                                          replyComment({
+                                             feedbackId: Number(feedbackId),
+                                             status,
+                                             commentId,
+                                             currentUser,
+                                             reply: innerReplyValue,
+                                             replyingTo: user.username,
+                                          })
+                                       );
+                                       closeReplyForm();
+                                       setInnerReplyValue('');
+                                    }}
+                                 >
                                     Post Reply
                                  </button>
                               </InnerForm>
@@ -287,5 +344,13 @@ const InnerForm = styled.form`
       height: 65px;
       z-index: 2;
       opacity: 1;
+   }
+
+   button {
+      transition: all 0.5s ease-out;
+      &:disabled {
+         cursor: not-allowed;
+         opacity: 0.6;
+      }
    }
 `;

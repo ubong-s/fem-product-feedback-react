@@ -27,8 +27,11 @@ const SingleFeedbackDetail = () => {
          <SingleFeedbackDetailWrap className='container'>
             <FeedbackDetailNav {...feedback} />
             <FeedbackHeader {...feedback} />
-            <FeedbackComments comments={feedback.comments} />
-            <AddComment feedbackId={feedback.id} />
+            <FeedbackComments
+               comments={feedback.comments}
+               status={feedback.status}
+            />
+            <AddComment feedbackId={feedback.id} feedback={feedback} />
          </SingleFeedbackDetailWrap>
       </>
    );
