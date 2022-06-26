@@ -10,13 +10,23 @@ const statuses = [
    ...new Set(data.productRequests.map((request) => request.status)),
 ];
 
+const getLocalStorage = () => {
+   const allRequests = JSON.parse(localStorage.getItem('allRequests'));
+   const requestFilters = JSON.parse(localStorage.getItem('requestFilters'));
+   return { allRequests, requestFilters };
+};
+
 const initialState = {
-   allRequests: [...data.productRequests],
+   allRequests: getLocalStorage().allRequests || [...data.productRequests],
    suggestion: [],
    planned: [],
    in_progress: [],
    live: [],
-   filters: { category: 'all', sort: 'Most Upvotes', roadmapMobile: 'planned' },
+   filters: getLocalStorage().requestFilters || {
+      category: 'all',
+      sort: 'Most Upvotes',
+      roadmapMobile: 'planned',
+   },
 };
 
 export const productRequestsSlice = createSlice({

@@ -15,7 +15,14 @@ const NotFound = lazy(() => import('./pages/notFound'));
 
 function App() {
    const dispatch = useDispatch();
-   const { allRequests } = useSelector((state) => state.productRequests);
+   const { allRequests, filters } = useSelector(
+      (state) => state.productRequests
+   );
+
+   useEffect(() => {
+      localStorage.setItem('allRequests', JSON.stringify(allRequests));
+      localStorage.setItem('requestFilters', JSON.stringify(filters));
+   }, [allRequests, filters]);
 
    useEffect(() => {
       dispatch(fetchStatuses());
