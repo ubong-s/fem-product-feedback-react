@@ -9,7 +9,7 @@ const HeaderIntro = ({ menuOpen, toggleMenu }) => {
           <h1>Frontend Mentor</h1>
           <p>Feedback board</p>
         </div>
-        <HamburgerIcon type="button" onClick={toggleMenu}>
+        <HamburgerIcon title="menu-button" type="button" onClick={toggleMenu}>
           {menuOpen ? (
             <svg
               width="18"
