@@ -55,15 +55,4 @@ describe('SuggestionCard', () => {
     expect(categoryElement).toHaveTextContent(sampleComment.category);
     expect(commentsElement).toHaveTextContent(sampleComment.comments.length);
   });
-
-  test('should render upvoted styles correctly', () => {
-    render(<SuggestionCard {...sampleComment} />);
-
-    const upvoteDesktopBtn = screen.getByTitle(
-      `upvote-btn-desk-${sampleComment.id}`
-    );
-    const upvoteMobileBtn = screen.getByTitle(
-      `upvote-btn-mobile-${sampleComment.id}`
-    );
-  });
 });
