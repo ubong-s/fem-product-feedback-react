@@ -22,7 +22,10 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "coverage": "react-scripts test --coverage --watchAll --collectCoverageFrom='src/components/**/*.{js,jsx}'"
+    "coverage": "react-scripts test --coverage --watchAll --collectCoverageFrom='src/components/**/*.{js,jsx}'",
+    "lint": "eslint --ignore-path .gitignore .",
+    "format": "prettier --ignore-path .gitignore --write \"**/*.{js,jsx,css,scss}\"",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [
@@ -59,7 +62,8 @@
     "eslint-plugin-jest-dom": "^4.0.3",
     "lint-staged": "^13.1.1",
     "msw": "^1.0.0",
-    "prettier": "^2.8.4"
+    "prettier": "^2.8.4",
+    "husky": "^8.0.0"
   },
   "lint-staged": {
     "*.{js,jsx}": [
