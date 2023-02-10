@@ -63,5 +63,13 @@ describe('RoadmapTabs', () => {
     expect(inProgressButton).toHaveClass('active');
     expect(liveButton).not.toHaveClass('active');
     expect(plannedButton).not.toHaveClass('active');
+
+    await user.click(plannedButton);
+    expect(plannedButton).toHaveStyle({
+      'border-bottom': `4px solid ${colors.orange}`,
+    });
+    expect(plannedButton).toHaveClass('active');
+    expect(liveButton).not.toHaveClass('active');
+    expect(inProgressButton).not.toHaveClass('active');
   });
 });
