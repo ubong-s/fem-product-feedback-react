@@ -1,7 +1,7 @@
-import RoadMapCard from '../../../components/roadmap/RoadMapCard';
+import RoadmapCard from '../../../components/roadmap/RoadmapCard';
 import { render, screen } from '../../../test-utils';
 
-describe('RoadMapCard', () => {
+describe('RoadmapCard', () => {
   const sample = {
     id: 7,
     title: 'More comprehensive reports',
@@ -35,7 +35,7 @@ describe('RoadMapCard', () => {
     ],
   };
   test('should render correctly', () => {
-    render(<RoadMapCard {...sample} />);
+    render(<RoadmapCard {...sample} />);
 
     const titleElement = screen.getByRole('heading');
     expect(titleElement).toHaveTextContent(sample.title);
