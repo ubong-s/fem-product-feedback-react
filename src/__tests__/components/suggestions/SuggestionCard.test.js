@@ -3,7 +3,7 @@ import SuggestionCard from '../../../components/suggestions/SuggestionCard';
 import user from '@testing-library/user-event';
 
 describe('SuggestionCard', () => {
-  const sampleComment = {
+  const sampleSuggestion = {
     id: 1,
     title: 'Add tags for solutions',
     category: 'enhancement',
@@ -35,24 +35,24 @@ describe('SuggestionCard', () => {
     ],
   };
   test('should render correctly', () => {
-    render(<SuggestionCard {...sampleComment} />);
+    render(<SuggestionCard {...sampleSuggestion} />);
 
     const headingElement = screen.getByRole('heading', {
-      name: sampleComment.title,
+      name: sampleSuggestion.title,
     });
-    const descriptionElement = screen.getByText(sampleComment.description);
+    const descriptionElement = screen.getByText(sampleSuggestion.description);
     const upvoteMobileElement = screen.getByTitle('upvote-mobile');
     const upvoteDesktopElement = screen.getByTitle('upvote-desk');
     const categoryElement = screen.getByTitle('category');
     const commentsElement = screen.getByTitle(
-      `comments-count-${sampleComment.id}`
+      `comments-count-${sampleSuggestion.id}`
     );
 
     expect(headingElement).toBeInTheDocument();
     expect(descriptionElement).toBeInTheDocument();
-    expect(upvoteMobileElement).toHaveTextContent(sampleComment.upvotes);
-    expect(upvoteDesktopElement).toHaveTextContent(sampleComment.upvotes);
-    expect(categoryElement).toHaveTextContent(sampleComment.category);
-    expect(commentsElement).toHaveTextContent(sampleComment.comments.length);
+    expect(upvoteMobileElement).toHaveTextContent(sampleSuggestion.upvotes);
+    expect(upvoteDesktopElement).toHaveTextContent(sampleSuggestion.upvotes);
+    expect(categoryElement).toHaveTextContent(sampleSuggestion.category);
+    expect(commentsElement).toHaveTextContent(sampleSuggestion.comments.length);
   });
 });
